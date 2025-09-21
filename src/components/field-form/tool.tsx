@@ -6,13 +6,24 @@ import {
   type FieldProps,
 } from "react-final-form";
 
+type ExtraProps = {
+  label?: string;
+  dataDiff?: string[];
+  nameDiff?: string;
+  title?: string;
+  required?: boolean;
+  dataTable?: any[];
+  onChange?: (v: any) => void;
+  onBlur?: (v: any) => void;
+};
+
 export type Props<T> = {
-  position?: "vertical" | "horizon" | "table";
+  position?: "vertical" | "horizon" | "table" | "tableAccount";
 } & FieldRenderProps<T>;
 
 export const modifyComponent =
-  (Component: ComponentType<any>, width = "100%") =>
-  (props: Omit<Props<any>, "onBlur">) => {
+  (Component: ComponentType<any>) =>
+  (props: Omit<Props<any>, "onBlur"> & ExtraProps) => {
     const {
       input,
       meta,
@@ -36,7 +47,7 @@ export const modifyComponent =
     }, [error, touched]);
 
     const [isDiff, setIsDiff] = useState<boolean>(false);
-    const [setRowDiff] = useState<string[]>([]);
+    const [_, setRowDiff] = useState<string[]>([]);
 
     useEffect(() => {
       if (dataDiff) {
@@ -49,7 +60,8 @@ export const modifyComponent =
         if (position === "table") {
           const rowDiffTemp = dataDiff
             ?.filter(
-              (x: string) => x.indexOf(nameDiff) > -1 && x.slice(-1) !== "s"
+              (x: string) =>
+                x.indexOf(nameDiff ?? "") > -1 && x.slice(-1) !== "s"
             )
             ?.map((x: string) => x.slice(-1));
 
@@ -63,7 +75,7 @@ export const modifyComponent =
           );
 
           setIsDiff(true);
-          setRowDiff(rowDiffTemp);
+          setRowDiff(rowDiffTemp ?? []);
         } else if (dataDiff.includes(realName)) {
           setIsDiff(true);
         } else setIsDiff(false);
@@ -126,17 +138,9 @@ type CustomFieldProps = {
   hideErrorLabel?: boolean;
 };
 
-// export const makeField = <T,>(component: ComponentType<any>, width?: string) => {
-//   const newComponent = modifyComponent(component, width)
-//   return (props: FieldProps<string, Props<string>> & T & CustomFieldProps) => <Field {...props} render={newComponent} />
-// }
-
-export const makeField = <T,>(
-  component: ComponentType<any>,
-  width?: string
-) => {
-  const newComponent = modifyComponent(component, width);
-  return (props: FieldProps<string, Props<string>> & T & CustomFieldProps) => (
-    <Field {...props} render={newComponent} />
-  );
+export const makeField = <T,>(component: ComponentType<any>) => {
+  const newComponent = modifyComponent(component);
+  return (
+    props: FieldProps<string, HTMLElement> & T & CustomFieldProps & ExtraProps
+  ) => <Field<string> {...props} render={newComponent} />;
 };

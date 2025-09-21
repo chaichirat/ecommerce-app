@@ -41,7 +41,7 @@ export const LoginFormDetail = () => {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              width: "400px",
+              width: "500px",
               p: "2rem",
               boxSizing: "border-box",
               color: "white",

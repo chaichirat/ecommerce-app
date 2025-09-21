@@ -1,0 +1,59 @@
+{
+  "home": {
+    "Sunzada": "Sunzada",
+    "SunzadaDetail1": "Discover quality products at great prices, delivered fast and securely. Enjoy exclusive deals and promotions all year round.",
+    "SunzadaDetail2": "Shop smart, shop safe, shop with confidence.",
+    "Products just for you": "Products just for you"
+  },
+
+  "header": { "Search": "Search", "Cart": "Cart", "Merchant": "Merchant" },
+
+  "login": {
+    "Login": "Login",
+    "Username": "Username",
+    "Password": "Password",
+    "Forgot your password": "Forgot your password"
+  },
+
+  "button": {
+    "Shop now": "Shop now",
+    "Buy": "Buy",
+    "Add to cart": "Add to cart",
+    "New Product": "New Product",
+    "Save": "Save",
+    "View": "View",
+    "Edit": "Edit",
+    "Delete": "Delete"
+  },
+
+  "tableHead": {
+    "Number": "No.",
+    "Image": "Image",
+    "Title": "Title",
+    "Price": "Price",
+    "Stock": "Stock",
+    "Description": "Description",
+    "Action": "Action",
+    "Products": "Products",
+    "Amount": "Amount",
+    "Total": "Total"
+  },
+
+  "validation": {
+    "Image is require.": "Image is require.",
+    "Title is require.": "Title is require.",
+    "Description is require.": "Description is require.",
+    "Price is require.": "Price is require.",
+    "Stock is require.": "Stock is require.",
+    "Please enter a number.": "Please enter a number.",
+    "Username is require": "Username is require.",
+    "Password is require": "Password is require.",
+    "Username Ivalidate": "Username ivalidate.",
+    "Password Ivalidate": "Password ivalidate."
+  },
+
+  "Shopping completed": "Shopping completed!",
+  "Add to cart completed": "Add to cart completed!",
+  "Out of stock.": "Out of stock.",
+  "Sorry, this product is currently out of stock.": "Sorry, this product is currently out of stock."
+}

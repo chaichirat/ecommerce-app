@@ -1,0 +1,59 @@
+{
+  "home": {
+    "Sunzada": "ซันซาด้า",
+    "SunzadaDetail1": "พบกับสินค้าคุณภาพในราคาสุดคุ้ม จัดส่งรวดเร็วและปลอดภัย เพลิดเพลินกับข้อเสนอและโปรโมชั่นสุดพิเศษตลอดทั้งปี",
+    "SunzadaDetail2": "ช้อปอย่างฉลาด, ช้อปอย่างปลอดภัย, มั่นใจในทุกการช้อป",
+    "Products just for you": "สินค้าเพื่อคุณโดยเฉพาะ"
+  },
+
+  "header": { "Search": "ค้นหา", "Cart": "รถเข็น", "Merchant": "ผู้ประกอบการ" },
+
+  "login": {
+    "Login": "เข้าสู่ระบบ",
+    "Username": "ชื่อผู้ใช้",
+    "Password": "รหัสผ่าน",
+    "Forgot your password": "ลืมรหัสผ่าน"
+  },
+
+  "button": {
+    "Shop now": "ช้อปเลยตอนนี้",
+    "Buy": "ซื้อสินค้า",
+    "Add to cart": "เพิ่มลงรถเข็น",
+    "New Product": "สินค้าใหม่",
+    "Save": "บันทึก",
+    "View": "ดู",
+    "Edit": "แก้ไข",
+    "Delete": "ลบ"
+  },
+
+  "tableHead": {
+    "Number": "ลำดับที่",
+    "Image": "รูปภาพ",
+    "Title": "ชื่อสินค้า",
+    "Price": "ราคา",
+    "Stock": "คลัง",
+    "Description": "คำอธิบายสินค้า",
+    "Action": "แอคชั่น",
+    "Products": "สินค้า",
+    "Amount": "จำนวน",
+    "Total": "ราคารวม"
+  },
+
+  "validation": {
+    "Image is require.": "จำเป็นต้องใส่รูปภาพ",
+    "Title is require.": "จำเป็นต้องใส่ชื่อสินค้า",
+    "Description is require.": "จำเป็นต้องใส่คำอธิบายสินค้า",
+    "Price is require.": "จำเป็นต้องใส่ราคาสินค้า",
+    "Stock is require.": "จำเป็นต้องใส่จำนวนสินค้าในคลัง",
+    "Please enter a number.": "กรุณาใส่ตัวเลข",
+    "Username is require": "จำเป็นต้องใส่ชื่อผู้ใช้",
+    "Password is require": "จำเป็นต้องใส่รหัสผ่าน",
+    "Username Ivalidate": "ชื่อผู้ใช้ผ่านไม่ถูกต้อง",
+    "Password Ivalidate": "รหัสผ่านไม่ถูกต้อง"
+  },
+
+  "Shopping completed": "ช้อปสินค้าเสร็จเรียบร้อยแล้ว!",
+  "Add to cart completed": "เพิ่มสินค้าลงในรถเข็นเรียบร้อยแล้ว!",
+  "Out of stock.": "สินค้าหมด",
+  "Sorry, this product is currently out of stock.": "ขออภัย สินค้าหมดคลังแล้วในขณะนี้."
+}

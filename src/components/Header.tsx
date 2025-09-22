@@ -182,7 +182,7 @@ export const Header = () => {
             justifyContent: "space-between",
             width: "100%",
             maxWidth: "1180px",
-            px: { xs: "1rem", sm: "2rem", md: "0" },
+            px: { xs: "1rem", sm: "2rem", lg: "0" },
             m: "0 auto",
             boxSizing: "border-box",
           }}
@@ -238,23 +238,6 @@ export const Header = () => {
               gap: { xs: "0.5rem", sm: "2rem" },
             }}
           >
-            {roleMerchant && (
-              <Link to={paths.merchant} style={{ textDecoration: "none" }}>
-                <b>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      color: color.textLogo,
-                      transition: "color 0.15s ease-in-out",
-                      "&:hover": { color: color.background },
-                    }}
-                  >
-                    {t("header.Merchant")}
-                  </Typography>
-                </b>
-              </Link>
-            )}
-
             {isHome && (
               <Search sx={{ display: { xs: "none", md: "block" } }}>
                 <SearchIconWrapper>

@@ -28,7 +28,10 @@ export const PagePayment = () => {
           flexDirection: "column",
           gap: "0.5rem",
           maxWidth: "1180px",
-          m: "0 auto",
+          m: { xs: "0 0.5rem", sm: "0 auto" },
+          boxSizing: "border-box",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Box
@@ -38,7 +41,7 @@ export const PagePayment = () => {
             bgcolor: "white",
             borderRadius: "0.5rem",
             gap: "1rem",
-            p: "2rem",
+            p: { xs: "1rem", sm: "2rem" },
             width: "100%",
             mt: "2rem",
             boxSizing: "border-box",
@@ -54,13 +57,28 @@ export const PagePayment = () => {
             }}
           >
             <LocationPinIcon />
-            <Typography variant="h6">
+            <Typography
+              variant="h6"
+              sx={{ display: { xs: "none", sm: "block" } }}
+            >
               <b>{t("Shipping address")}</b>
+            </Typography>
+
+            <Typography
+              variant="h6"
+              sx={{ display: { xs: "block", sm: "none" }, color: "black" }}
+            >
+              <b>
+                {curUser?.username} {curUser?.phone}
+              </b>
             </Typography>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box>
-              <Typography variant="subtitle1">
+              <Typography
+                variant="subtitle1"
+                sx={{ display: { xs: "none", sm: "block" } }}
+              >
                 <b>
                   {curUser?.username} {curUser?.phone}
                 </b>

@@ -138,11 +138,11 @@ export const PageProduct = () => {
           bgcolor: "white",
           m: "0 auto",
           mt: { xs: "16px", md: "48px" },
-          p: { xs: "1rem", sm: "2rem 3rem" },
+          p: { xs: "1rem 1rem 2.5rem", sm: "2rem 3rem" },
           borderRadius: "0.5rem",
           boxSizing: "border-box",
           maxWidth: { xs: "100%", md: "1180px" },
-          height: { xs: "calc(100vh - 84px)", sm: "auto" },
+          height: "auto",
         }}
       >
         <Box
@@ -160,10 +160,8 @@ export const PageProduct = () => {
               borderRadius: "0.5rem",
               overflow: "hidden",
               flexShrink: 0,
-              width: "100%",
-              height: "auto",
-              maxHeight: "450px",
-              maxWidth: "470px",
+              width: { xs: "270", sm: "370px" },
+              height: "350px",
             }}
           >
             <a href={curProduct?.image} target="blank">
@@ -171,7 +169,7 @@ export const PageProduct = () => {
                 src={curProduct?.image}
                 style={{
                   width: "100%",
-                  height: "auto",
+                  height: "100%",
                   objectFit: "cover",
                 }}
               />
@@ -182,7 +180,7 @@ export const PageProduct = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
+              gap: "4rem",
               textAlign: "start",
               boxSizing: "border-box",
               width: "100%",
@@ -223,10 +221,11 @@ export const PageProduct = () => {
                 <Typography variant="h6">
                   <b>{t("tableHead.Amount")}:</b>
                 </Typography>
+
                 <Box
                   sx={{
                     display: "flex",
-                    gap: "2rem",
+                    gap: { xs: "1rem", sm: "2rem" },
                     width: "100%",
                   }}
                 >
@@ -244,11 +243,12 @@ export const PageProduct = () => {
                   </Typography>
                 </Box>
               </Box>
+
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: { xs: "center", sm: "start" },
-                  gap: "1rem",
+                  gap: { xs: "0.5rem", sm: "1rem" },
                   width: "100%",
                   height: "40px",
                 }}
@@ -258,7 +258,7 @@ export const PageProduct = () => {
                   onClick={onAddCart}
                   startIcon={<AddShoppingCartIcon fontSize="large" />}
                   sx={{
-                    width: "160px",
+                    maxwidth: "160px",
                     borderColor: color.background,
                     bgcolor: "white",
                     color: color.background,

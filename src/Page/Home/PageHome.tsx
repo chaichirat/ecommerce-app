@@ -79,10 +79,10 @@ export const PageHome = () => {
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: { xs: "column", lg: "row" },
             alignItems: "center",
             justifyContent: "start",
-            height: { xs: "586px", sm: "668px", md: "768px" },
+            height: { xs: "586px", sm: "668px", lg: "768px" },
             width: "100%",
             mt: "68px",
             position: "relative",
@@ -96,14 +96,13 @@ export const PageHome = () => {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "start",
-              textAlign: { xs: "center", md: "start" },
+              textAlign: { xs: "center", lg: "start" },
               maxwidth: "600px",
               height: "100%",
-              mb: { xs: "0", md: "10rem" },
+              mb: { xs: "0", lg: "10rem" },
               boxSizing: "border-box",
               color: "white",
               gap: "3rem",
-              px: { xs: "1rem", md: "2rem" },
             }}
           >
             <motion.div
@@ -116,7 +115,7 @@ export const PageHome = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: "1rem",
-                  width: { xs: "100%", md: "560px" },
+                  width: { xs: "100%", lg: "560px" },
                   boxSizing: "border-box",
                 }}
               >
@@ -134,7 +133,7 @@ export const PageHome = () => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: { xs: "center", md: "start" },
+                justifyContent: { xs: "center", lg: "start" },
                 width: "100%",
               }}
             >
@@ -155,10 +154,10 @@ export const PageHome = () => {
           <Box
             sx={{
               display: "block",
-              position: { xs: "unset", md: "absolute" },
+              position: { xs: "unset", lg: "absolute" },
               right: "-120px",
               top: "180px",
-              width: { xs: "400px", sm: "600px", md: "760px" },
+              width: { xs: "360px", sm: "600px", lg: "760px" },
             }}
           >
             <motion.div
@@ -194,7 +193,7 @@ export const PageHome = () => {
             gridTemplateColumns: {
               xs: "repeat(2, 1fr)",
               sm: "repeat(4, 1fr)",
-              md: "repeat(6, 1fr)",
+              lg: "repeat(6, 1fr)",
             },
             p: { xs: "0.5rem", sm: "2rem" },
             borderRadius: "0.5rem",
@@ -268,8 +267,8 @@ export const PageHome = () => {
             onClick={scrollToTop}
             sx={{
               position: "fixed",
-              bottom: 100,
-              right: { xs: 24, sm: 42 },
+              bottom: 90,
+              right: { xs: 16, sm: 42 },
               bgcolor: "white",
               color: color.background,
               zIndex: 1000,

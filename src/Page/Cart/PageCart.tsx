@@ -26,6 +26,8 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ShopBox } from "./components/ShopBox";
 import { color } from "../../constants/color";
+import { useRouter } from "../../router";
+import { paths } from "../../constants/paths";
 
 type Order = "asc" | "desc";
 
@@ -49,9 +51,11 @@ function getComparator<Key extends keyof IProductType>(
 }
 
 export const PageCart = () => {
+  const router = useRouter();
   const { t } = useTranslation();
   const { data: curCart = [] } = useGetProductCartQRY();
   const queryClient = useQueryClient();
+
   const [order, setOrder] = useState<Order>("asc");
   const [orderBy, setOrderBy] = useState<keyof IProductType>("id");
   const [selected, setSelected] = useState<readonly number[]>([]);
@@ -67,6 +71,32 @@ export const PageCart = () => {
       console.log("delete success.");
     },
   });
+
+  const { mutate: addOrder } = useMutation({
+    mutationFn: async (addOrders: IProductType[]) => {
+      queryClient.removeQueries({ queryKey: ["order"] });
+      
+      queryClient.setQueryData(
+        ["order"],
+        (productsList: IProductType[] = []) => [...productsList, ...addOrders]
+      );
+    },
+    onSuccess: () => {
+      console.log("Add to Order success");
+      router.push(paths.payment);
+    },
+  });
+
+  const onBuying = useCallback(() => {
+    const selectedProducts = curCart.filter((p) => selected.includes(p.id));
+
+    if (selectedProducts.length === 0) {
+      console.log("No products selected");
+      return alert("No products selected");
+    }
+
+    addOrder(selectedProducts);
+  }, [router, addOrder, selected, curCart]);
 
   const onDelete = useCallback(
     (values: IProductType) => {
@@ -225,7 +255,7 @@ export const PageCart = () => {
           </Table>
         </TableContainer>
 
-        <ShopBox />
+        <ShopBox onClick={onBuying} />
       </Box>
     </>
   );

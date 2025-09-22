@@ -26,39 +26,57 @@ export const PageProduct = () => {
 
   const [amount, setAmount] = useState(1);
   const [openSnackbars, setOpenSnackbars] = useState(false);
-  const [buying, setBuying] = useState(false);
   const [label, setLabel] = useState("");
 
-  const { mutate: stock } = useMutation({
-    mutationFn: async (updateStock: IProductType) => {
-      queryClient.setQueryData(["product"], (productsList: IProductType[]) =>
-        productsList?.map((product) =>
-          product.id === updateStock.id
-            ? {
-                ...updateStock,
-                stock: updateStock?.stock
-                  ? updateStock?.stock - amount
-                  : alert(
-                      `${t("Sorry, this product is currently out of stock.")}`
-                    ),
-              }
-            : product
-        )
-      );
-      queryClient.invalidateQueries({ queryKey: ["product"] });
+  //   const { mutate: stock } = useMutation({
+  //     mutationFn: async (updateStock: IProductType) => {
+  //       queryClient.setQueryData(["product"], (productsList: IProductType[]) =>
+  //         productsList?.map((product) =>
+  //           product.id === updateStock.id
+  //             ? {
+  //                 ...updateStock,
+  //                 stock: updateStock?.stock
+  //                   ? updateStock?.stock - amount
+  //                   : alert(
+  //                       `${t("Sorry, this product is currently out of stock.")}`
+  //                     ),
+  //               }
+  //             : product
+  //         )
+  //       );
+  //       queryClient.invalidateQueries({ queryKey: ["product"] });
 
-      return updateStock;
-    },
-    onSuccess: (values: IProductType) => {
-      if (values.stock) {
-        setLabel("Shopping completed");
-        setOpenSnackbars(true);
-        setTimeout(() => {
-          router.push(paths.home);
-        }, 1000);
+  //       return updateStock;
+  //     },
+  //     onSuccess: (values: IProductType) => {
+  //       if (values.stock) {
+  //         setLabel("Shopping completed");
+  //         setOpenSnackbars(true);
+  //         setTimeout(() => {
+  //           router.push(paths.home);
+  //         }, 1000);
+  //       } else {
+  //         router.push(paths.home);
+  //       }
+  //     },
+  //   });
+
+  const { mutate: addOrder } = useMutation({
+    mutationFn: async (addOrder: IProductType) => {
+      if (addOrder?.stock) {
+        queryClient.removeQueries({ queryKey: ["order"] });
+
+        queryClient.setQueryData(
+          ["order"],
+          (productsList: IProductType[] = []) => [...productsList, addOrder]
+        );
       } else {
-        router.push(paths.home);
+        alert(`${t("Sorry, this product is currently out of stock.")}`);
       }
+    },
+    onSuccess: () => {
+      console.log("Add to Order: Success.");
+      router.push(paths.payment);
     },
   });
 
@@ -88,14 +106,15 @@ export const PageProduct = () => {
 
   const onBuying = useCallback(() => {
     if (curUser) {
-      if (!curProduct) return;
-      console.log("Buy:", curProduct);
-      setBuying(true);
-      stock(curProduct);
+      if (curProduct?.stock) {
+        addOrder(curProduct);
+      } else {
+        alert(`${t("Sorry, this product is currently out of stock.")}`);
+      }
     } else {
       router.push(paths.login);
     }
-  }, [stock, curProduct, router]);
+  }, [curProduct, router, addOrder]);
 
   const onAddCart = useCallback(() => {
     if (curUser) {
@@ -115,24 +134,36 @@ export const PageProduct = () => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
           position: "relative",
           bgcolor: "white",
           m: "0 auto",
-          mt: "48px",
-          p: "2rem 3rem",
+          mt: { xs: "16px", md: "48px" },
+          p: { xs: "1rem", sm: "2rem 3rem" },
           borderRadius: "0.5rem",
-          maxWidth: "1180px",
+          boxSizing: "border-box",
+          maxWidth: { xs: "100%", md: "1180px" },
+          height: { xs: "calc(100vh - 84px)", sm: "auto" },
         }}
       >
-        <Box sx={{ display: "flex", gap: "2rem", width: "100%" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "start",
+            alignItems: { xs: "center", md: "unset" },
+            gap: "2rem",
+            width: "100%",
+          }}
+        >
           <Box
             sx={{
               borderRadius: "0.5rem",
               overflow: "hidden",
-              width: "470px",
-              height: "450px",
               flexShrink: 0,
+              width: "100%",
+              height: "auto",
+              maxHeight: "450px",
+              maxWidth: "470px",
             }}
           >
             <a href={curProduct?.image} target="blank">
@@ -140,19 +171,22 @@ export const PageProduct = () => {
                 src={curProduct?.image}
                 style={{
                   width: "100%",
-                  height: "100%",
+                  height: "auto",
                   objectFit: "cover",
                 }}
               />
             </a>
           </Box>
+
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-between",
               textAlign: "start",
+              boxSizing: "border-box",
               width: "100%",
+              height: "100%",
             }}
           >
             <Box>
@@ -168,6 +202,7 @@ export const PageProduct = () => {
                 {curProduct?.description}
               </Typography>
             </Box>
+
             <Box
               sx={{
                 display: "flex",
@@ -181,7 +216,7 @@ export const PageProduct = () => {
                 sx={{
                   display: "flex",
                   justifyContent: "start",
-                  gap: "4rem",
+                  gap: { xs: "2rem", md: "4rem" },
                   width: "100%",
                 }}
               >
@@ -212,7 +247,7 @@ export const PageProduct = () => {
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: "start",
+                  justifyContent: { xs: "center", sm: "start" },
                   gap: "1rem",
                   width: "100%",
                   height: "40px",
@@ -220,7 +255,6 @@ export const PageProduct = () => {
               >
                 <Button
                   variant="outlined"
-                  disabled={buying}
                   onClick={onAddCart}
                   startIcon={<AddShoppingCartIcon fontSize="large" />}
                   sx={{
@@ -235,7 +269,6 @@ export const PageProduct = () => {
                 <Button
                   variant="contained"
                   onClick={onBuying}
-                  disabled={buying}
                   sx={{
                     bgcolor: color.background,
                     width: "160px",
@@ -247,6 +280,7 @@ export const PageProduct = () => {
             </Box>
           </Box>
         </Box>
+
         <Box
           sx={{
             display: "flex",

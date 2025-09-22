@@ -8,4 +8,5 @@ export const paths = {
   edit: "/product/edit/:id",
   delete: "/product/delete/:id",
   cart: "/cart",
+  payment: "/payment",
 };

@@ -21,7 +21,7 @@ export const useGetCurUserLoginQRY = () => {
   });
 };
 
-const useSetUserLogin = () => {
+const useSetUserLoginQRY = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -35,7 +35,7 @@ export const LoginForm = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { data } = useGetUserLoginQRY();
-  const { mutate: curUser } = useSetUserLogin();
+  const { mutate: curUser } = useSetUserLoginQRY();
 
   const onValidate = useCallback(
     (values: IUserType) => {

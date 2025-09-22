@@ -21,7 +21,7 @@ export const user: IUserType[] = [
     username: "sunny",
     password: "1234",
     role: "customer",
-    phone: "+66912345678",
+    phone: "(+66) 91 234 5678",
     address: {
       street: "123 ถนนสุขุมวิท",
       city: "กรุงเทพฯ",
@@ -37,7 +37,7 @@ export const user: IUserType[] = [
     username: "owner",
     password: "5678",
     role: "merchant",
-    phone: "+66987654321",
+    phone: "(+66) 98 765 4321",
     address: {
       street: "99 ถนนพระราม 9",
       city: "กรุงเทพฯ",

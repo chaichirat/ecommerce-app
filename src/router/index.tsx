@@ -11,6 +11,7 @@ import { PageProductMerchant } from "../Page/ProductMerchant/PageProductMerchant
 import { PageProductView } from "../Page/Product/PageProductView";
 import { PageCart } from "../Page/Cart/PageCart";
 import { PageLogin } from "../Page/Login/PageLogin";
+import { PagePayment } from "../Page/Payment/PagePayment";
 
 export const Router = () => {
   return useRoutes([
@@ -49,6 +50,10 @@ export const Router = () => {
     {
       path: paths.cart,
       element: <PageCart />,
+    },
+    {
+      path: paths.payment,
+      element: <PagePayment />,
     },
   ]);
 };

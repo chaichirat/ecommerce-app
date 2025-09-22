@@ -34,25 +34,34 @@ export const LoginFormDetail = () => {
           height: "calc(100vh - 68px)",
         }}
       >
-        <Box sx={{ display: "flex", gap: "4rem" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column-reverse", md: "row" },
+            gap: { md: "4rem" },
+          }}
+        >
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              width: "500px",
+              maxWidth: "500px",
               p: "2rem",
               boxSizing: "border-box",
               color: "white",
             }}
           >
             <motion.div
-              initial={{ x: -40, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
+              initial={{ y: -40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
             >
-              <Typography variant="h1">
+              <Typography
+                variant="h1"
+                sx={{ display: { xs: "none", md: "block" } }}
+              >
                 <b>{t("home.Sunzada")}</b>
               </Typography>
               <Box
@@ -104,6 +113,7 @@ export const LoginFormDetail = () => {
               </Box>
             </motion.div>
           </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -111,8 +121,9 @@ export const LoginFormDetail = () => {
               gap: "2rem",
               bgcolor: "white",
               borderRadius: "0.5rem",
-              width: "400px",
-              p: "2rem",
+              width: { xs: "100vw", sm: "500px", md: "400px" },
+              py: "2rem",
+              px: { xs: "1rem", sm: "2rem" },
               boxSizing: "border-box",
               boxShadow: "0px 2px 15px rgba(0, 0, 0, 0.32)",
             }}

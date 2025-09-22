@@ -150,6 +150,10 @@ export const Header = () => {
     return router.pathname === paths.merchant;
   }, [router, id]);
 
+  const isPayment = useMemo(() => {
+    return router.pathname === paths.payment;
+  }, [router, id]);
+
   const roleMerchant = useMemo(() => {
     return curUser?.role === "merchant";
   }, [router]);
@@ -178,6 +182,7 @@ export const Header = () => {
             justifyContent: "space-between",
             width: "100%",
             maxWidth: "1180px",
+            px: { xs: "1rem", sm: "2rem", md: "0" },
             m: "0 auto",
             boxSizing: "border-box",
           }}
@@ -220,11 +225,19 @@ export const Header = () => {
                 ? "Login"
                 : isMerchant
                 ? "Manage Store"
+                : isPayment
+                ? "Payment"
                 : ""}
             </Typography>
           </Box>
 
-          <Box sx={{ display: "flex", alignItems: "center", gap: "2rem" }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: { xs: "0.5rem", sm: "2rem" },
+            }}
+          >
             {roleMerchant && (
               <Link to={paths.merchant} style={{ textDecoration: "none" }}>
                 <b>
@@ -243,7 +256,7 @@ export const Header = () => {
             )}
 
             {isHome && (
-              <Search>
+              <Search sx={{ display: { xs: "none", md: "block" } }}>
                 <SearchIconWrapper>
                   <SearchIcon sx={{ color: "white" }} />
                 </SearchIconWrapper>
@@ -268,8 +281,10 @@ export const Header = () => {
                       }}
                     >
                       <ShoppingCartOutlinedIcon
-                        fontSize="large"
-                        sx={{ color: color.textLogo }}
+                        sx={{
+                          color: color.textLogo,
+                          fontSize: { xs: "24px", md: "32px" },
+                        }}
                       />
                     </Badge>
                   </Tooltip>
@@ -331,27 +346,29 @@ export const Header = () => {
                   </Link>
                 </Box>
               ) : (
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Tooltip title="Account settings">
-                    <IconButton
-                      onClick={handleClick}
-                      size="small"
-                      aria-controls={open ? "account-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                    >
-                      <Avatar
-                        src={curUser.image}
-                        sx={{ width: 32, height: 32 }}
-                      />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
+                isHome && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Tooltip title="Account settings">
+                      <IconButton
+                        onClick={handleClick}
+                        size="small"
+                        aria-controls={open ? "account-menu" : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? "true" : undefined}
+                      >
+                        <Avatar
+                          src={curUser.image}
+                          sx={{ width: 32, height: 32 }}
+                        />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                )
               ))}
 
             <Menu

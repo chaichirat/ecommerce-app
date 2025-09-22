@@ -79,12 +79,15 @@ export const PageHome = () => {
         <Box
           sx={{
             display: "flex",
+            flexDirection: { xs: "column", md: "row" },
             alignItems: "center",
             justifyContent: "start",
-            height: "768px",
+            height: { xs: "586px", sm: "668px", md: "768px" },
             width: "100%",
             mt: "68px",
             position: "relative",
+            boxSizing: "border-box",
+            mb: "4rem",
           }}
         >
           <Box
@@ -93,22 +96,29 @@ export const PageHome = () => {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "start",
-              width: "600px",
+              textAlign: { xs: "center", md: "start" },
+              maxwidth: "600px",
               height: "100%",
-              mb: "10rem",
+              mb: { xs: "0", md: "10rem" },
               boxSizing: "border-box",
               color: "white",
               gap: "3rem",
-              pl: "2rem",
+              px: { xs: "1rem", md: "2rem" },
             }}
           >
             <motion.div
-              initial={{ x: -40, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
             >
               <Box
-                sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                  width: { xs: "100%", md: "560px" },
+                  boxSizing: "border-box",
+                }}
               >
                 <Typography variant="h1">
                   <b>{t("home.Sunzada")}</b>
@@ -122,7 +132,11 @@ export const PageHome = () => {
               </Box>
             </motion.div>
             <Box
-              sx={{ display: "flex", justifyContent: "start", width: "100%" }}
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "center", md: "start" },
+                width: "100%",
+              }}
             >
               <Button
                 onClick={() => scrollToSection(productList)}
@@ -141,14 +155,14 @@ export const PageHome = () => {
           <Box
             sx={{
               display: "block",
-              position: "absolute",
-              right: "-80px",
+              position: { xs: "unset", md: "absolute" },
+              right: "-120px",
               top: "180px",
-              width: "760px",
+              width: { xs: "400px", sm: "600px", md: "760px" },
             }}
           >
             <motion.div
-              initial={{ y: 20, opacity: 0 }}
+              initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6 }}
             >
@@ -172,17 +186,22 @@ export const PageHome = () => {
             {t("home.Products just for you")}
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "end", mr: "32px" }}></Box>
+
         <Box
           ref={productList}
           sx={{
             display: "grid",
-            gridTemplateColumns: { xs: "repeat(2, 1fr)", md: "repeat(6, 1fr)" },
-            p: "2rem",
+            gridTemplateColumns: {
+              xs: "repeat(2, 1fr)",
+              sm: "repeat(4, 1fr)",
+              md: "repeat(6, 1fr)",
+            },
+            p: { xs: "0.5rem", sm: "2rem" },
             borderRadius: "0.5rem",
-            gap: "12px",
+            gap: { xs: "8px", sm: "12px" },
             width: "100%",
             maxWidth: "1180px",
+            boxSizing: "border-box",
           }}
         >
           {products?.map((product) => (
@@ -190,9 +209,9 @@ export const PageHome = () => {
               key={product.id}
               sx={{
                 width: "100%",
-                maxWidth: "220px", // กันไม่ให้ใหญ่เกินไป
-                mx: "auto", // เวลากว้างเกิน cell จะอยู่กึ่งกลาง
-                height: "330px",
+                maxWidth: "220px",
+                mx: "auto",
+                maxHeight: "330px",
                 transition: "transform 0.15s ease-in-out",
                 "&:hover": { transform: "scale(1.025)" },
               }}
@@ -202,7 +221,6 @@ export const PageHome = () => {
                   component="img"
                   image={product.image}
                   sx={{
-                    aspectRatio: "4 / 3", // หรือ 1 / 1 ถ้าอยากเป็นสี่เหลี่ยมจัตุรัส
                     objectFit: "cover",
                     width: "100%",
                     height: "200px",
@@ -243,6 +261,7 @@ export const PageHome = () => {
             </Card>
           ))}
         </Box>
+
         <Zoom in={visible}>
           <Fab
             size="small"
@@ -250,7 +269,7 @@ export const PageHome = () => {
             sx={{
               position: "fixed",
               bottom: 100,
-              right: 42,
+              right: { xs: 24, sm: 42 },
               bgcolor: "white",
               color: color.background,
               zIndex: 1000,

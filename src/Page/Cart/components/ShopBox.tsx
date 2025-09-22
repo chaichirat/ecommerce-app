@@ -2,7 +2,12 @@ import { Box, Button } from "@mui/material";
 import { color } from "../../../constants/color";
 import { useTranslation } from "react-i18next";
 
-export const ShopBox = () => {
+type IShopBoxProps = {
+  onClick: () => void;
+};
+
+export const ShopBox = (props: IShopBoxProps) => {
+  const { onClick } = props;
   const { t } = useTranslation();
 
   return (
@@ -32,6 +37,7 @@ export const ShopBox = () => {
         >
           <Button
             variant="contained"
+            onClick={onClick}
             sx={{
               bgcolor: color.background,
               width: "160px",

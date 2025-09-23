@@ -163,7 +163,7 @@ export const Header = () => {
       <Box
         sx={{
           display: "flex",
-          position: isHome ? "fixed" : "",
+          position: isHome ? "fixed" : "unset",
           top: 0,
           left: 0,
           height: "68px",
@@ -192,7 +192,6 @@ export const Header = () => {
               display: "flex",
               alignItems: "center",
               gap: "1rem",
-              width: "1000px",
             }}
           >
             <Box
@@ -210,23 +209,29 @@ export const Header = () => {
                 src="https://static.vecteezy.com/system/resources/previews/048/973/352/non_2x/lazada-icon-logo-symbol-free-png.png"
                 alt="Lazada-logo"
                 style={{
-                  width: "40px",
+                  width: "32px",
                   objectFit: "contain",
                 }}
               />
-              <Typography variant="h5" color={color.textLogo}>
+              <Typography
+                color={color.textLogo}
+                sx={{ fontSize: { xs: "16px", sm: "24px" } }}
+              >
                 <b>Sunzada</b>
               </Typography>
             </Box>
-            <Typography variant="h5" color={color.background}>
+            <Typography
+              color={color.background}
+              sx={{ fontSize: { xs: "16px", sm: "24px" } }}
+            >
               {isCart
-                ? "Cart"
+                ? t("header.Cart")
                 : isLogin
-                ? "Login"
+                ? t("Login")
                 : isMerchant
-                ? "Manage Store"
+                ? t("profile.Manage Store")
                 : isPayment
-                ? "Payment"
+                ? t("Payment")
                 : ""}
             </Typography>
           </Box>
@@ -290,6 +295,7 @@ export const Header = () => {
                   color: color.textLogo,
                   transition: "color 0.15s ease-in-out",
                   "&:hover": { color: color.background },
+                  fontSize: { xs: "12px", sm: "16px" },
                 }}
               >
                 <MenuItem
@@ -317,14 +323,14 @@ export const Header = () => {
                     }}
                   >
                     <Typography
-                      variant="body2"
                       sx={{
                         color: color.textLogo,
                         transition: "color 0.15s ease-in-out",
                         "&:hover": { color: color.background },
+                        fontSize: { xs: "10px", sm: "14px" },
                       }}
                     >
-                      <b>Login</b>
+                      <b>{t("Login")}</b>
                     </Typography>
                   </Link>
                 </Box>
@@ -392,11 +398,11 @@ export const Header = () => {
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
               <MenuItem onClick={handleClose}>
-                <Avatar src={curUser?.image} /> Profile
+                <Avatar src={curUser?.image} /> {t("profile.Profile")}
               </MenuItem>
               {roleMerchant && (
                 <MenuItem onClick={pathMerchant}>
-                  <Avatar src={curUser?.image} /> My Store
+                  <Avatar src={curUser?.image} /> {t("profile.My Store")}
                 </MenuItem>
               )}
               <Divider />
@@ -404,7 +410,7 @@ export const Header = () => {
                 <ListItemIcon>
                   <Logout fontSize="small" />
                 </ListItemIcon>
-                Logout
+                {t("profile.Logout")}
               </MenuItem>
             </Menu>
           </Box>

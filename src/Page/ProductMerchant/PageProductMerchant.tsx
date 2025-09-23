@@ -2,6 +2,8 @@ import {
   Box,
   Button,
   IconButton,
+  Menu,
+  MenuItem,
   Paper,
   Table,
   TableBody,
@@ -17,7 +19,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import { useCallback } from "react";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useCallback, useState, type MouseEvent } from "react";
 import { useRouter } from "../../router";
 import { paths } from "../../constants/paths";
 import { color } from "../../constants/color";
@@ -28,6 +31,14 @@ export const PageProductMerchant = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const { data: products } = useGetProductsQRY();
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => setAnchorEl(null);
 
   const pathView = useCallback(
     (id: number) => router.push(paths.view.replace(":id", id.toString())),
@@ -53,8 +64,8 @@ export const PageProductMerchant = () => {
           justifyContent: "center",
           alignItems: "center",
           maxWidth: "1180px",
-          m: "0 auto",
-          mt: "48px",
+          m: { xs: "0 0.5rem", md: "0 auto" },
+          mt: { xs: "24px", md: "48px" },
         }}
       >
         <Box
@@ -89,14 +100,56 @@ export const PageProductMerchant = () => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>{t("tableHead.Number")}</TableCell>
-                  <TableCell align="center">{t("tableHead.Image")}</TableCell>
-                  <TableCell align="left">{t("tableHead.Title")}</TableCell>
-                  <TableCell align="left">{t("tableHead.Price")}</TableCell>
-                  <TableCell align="left">{t("tableHead.Stock")}</TableCell>
-                  <TableCell align="center">{t("tableHead.Action")}</TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{
+                      fontSize: { xs: "10px", sm: "14px" },
+                      width: { xs: "40px", sm: "auto" },
+                    }}
+                  >
+                    {t("tableHead.Number")}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      display: { xs: "none", sm: "table-cell" },
+                      fontSize: { xs: "10px", sm: "14px" },
+                    }}
+                  >
+                    {t("tableHead.Image")}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{ fontSize: { xs: "10px", sm: "14px" } }}
+                  >
+                    {t("tableHead.Title")}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{ fontSize: { xs: "10px", sm: "14px" } }}
+                  >
+                    {t("tableHead.Price")}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    sx={{
+                      display: { xs: "none", sm: "table-cell" },
+                      fontSize: { xs: "10px", sm: "14px" },
+                    }}
+                  >
+                    {t("tableHead.Stock")}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      fontSize: { xs: "10px", sm: "14px" },
+                    }}
+                  >
+                    {t("tableHead.Action")}
+                  </TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
                 {products?.map((product: IProductType, index: number) => (
                   <TableRow
@@ -104,7 +157,12 @@ export const PageProductMerchant = () => {
                     sx={{ ":nth-child(odd)": { bgcolor: "#EDEDED" } }}
                   >
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell align="center">
+                    <TableCell
+                      align="center"
+                      sx={{
+                        display: { xs: "none", sm: "table-cell" },
+                      }}
+                    >
                       <img
                         src={product.image}
                         style={{
@@ -117,29 +175,96 @@ export const PageProductMerchant = () => {
                         onClick={() => pathView(product.id)}
                       />
                     </TableCell>
-                    <TableCell align="left">{product.title}</TableCell>
                     <TableCell align="left">
+                      <Box
+                        sx={{
+                          alignItems: "center",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          whiteSpace: "normal",
+                          lineHeight: "1.5em",
+                          maxHeight: "3em",
+                          fontSize: { xs: "10px", sm: "14px" },
+                        }}
+                      >
+                        {product.title}
+                      </Box>
+                    </TableCell>
+                    <TableCell
+                      align="left"
+                      sx={{ fontSize: { xs: "10px", sm: "14px" } }}
+                    >
                       ฿{product.price?.toLocaleString()}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell
+                      align="left"
+                      sx={{
+                        display: { xs: "none", sm: "table-cell" },
+                        fontSize: { xs: "10px", sm: "14px" },
+                      }}
+                    >
                       {product.stock ? product.stock : t("Out of stock.")}
                     </TableCell>
                     <TableCell align="center">
-                      <Tooltip title={t("button.View")}>
-                        <IconButton onClick={() => pathView(product.id)}>
-                          <VisibilityIcon />
+                      <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                        <Tooltip title={t("button.View")}>
+                          <IconButton onClick={() => pathView(product.id)}>
+                            <VisibilityIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title={t("button.Edit")}>
+                          <IconButton onClick={() => pathEdit(product.id)}>
+                            <EditIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title={t("button.Delete")}>
+                          <IconButton onClick={() => pathDelete(product.id)}>
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+
+                      <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                        <IconButton onClick={handleMenuOpen}>
+                          <MoreVertIcon fontSize="small" />
                         </IconButton>
-                      </Tooltip>
-                      <Tooltip title={t("button.Edit")}>
-                        <IconButton onClick={() => pathEdit(product.id)}>
-                          <EditIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Tooltip title={t("button.Delete")}>
-                        <IconButton onClick={() => pathDelete(product.id)}>
-                          <DeleteIcon />
-                        </IconButton>
-                      </Tooltip>
+                        <Menu
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleMenuClose}
+                          aria-labelledby="demo-positioned-button"
+                          anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                          }}
+                          transformOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                          }}
+                        >
+                          <MenuItem
+                            onClick={() => pathView(product.id)}
+                            sx={{ fontSize: { xs: "12px", sm: "14px" } }}
+                          >
+                            {t("button.View")}
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => pathEdit(product.id)}
+                            sx={{ fontSize: { xs: "12px", sm: "14px" } }}
+                          >
+                            {t("button.Edit")}
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => pathDelete(product.id)}
+                            sx={{ fontSize: { xs: "12px", sm: "14px" } }}
+                          >
+                            {t("button.Delete")}
+                          </MenuItem>
+                        </Menu>
+                      </Box>
                     </TableCell>
                   </TableRow>
                 ))}

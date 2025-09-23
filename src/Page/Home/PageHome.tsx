@@ -1,6 +1,6 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Header } from "../../components/Header";
-import { products, type IProductType } from "../../constants/products";
+import { products } from "../../constants/products";
 import { useRouter } from "../../router";
 import { useTranslation } from "react-i18next";
 import { useCallback, useRef, useState, type RefObject } from "react";
@@ -25,13 +25,10 @@ export const useGetProductsQRY = () => {
 };
 
 export const useGetProductByIdQRY = (id: number) => {
-  const queryClient = useQueryClient();
   return useQuery({
-    queryKey: ["product", id],
-    queryFn: () => {
-      const data = queryClient.getQueryData<IProductType[]>(["product"]);
-      return data?.find((product) => product.id === id);
-    },
+    queryKey: ["product"],
+    queryFn: () => products,
+    select: (data) => data.find((p) => p.id === id),
   });
 };
 
@@ -115,6 +112,7 @@ export const PageHome = () => {
                   display: "flex",
                   flexDirection: "column",
                   gap: "1rem",
+                  p: "0.5rem",
                   width: { xs: "100%", lg: "560px" },
                   boxSizing: "border-box",
                 }}

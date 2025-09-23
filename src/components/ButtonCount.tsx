@@ -33,8 +33,8 @@ export const ButtonCount = (props: IButtonCountProps) => {
           justifyContent: "center",
           border: "1px solid gray",
           borderRadius: "0.25rem",
-          height: "32px",
-          width: "124px",
+          height: { xs: "26px", sm: "32px" },
+          width: { xs: "90px", sm: "124px" },
         }}
       >
         <Box
@@ -52,10 +52,17 @@ export const ButtonCount = (props: IButtonCountProps) => {
               borderRadius: 0,
             }}
           >
-            <RemoveIcon fontSize="small" />
+            <RemoveIcon sx={{ fontSize: { xs: "12px", sm: "18px" } }} />
           </IconButton>
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "center", width: "50px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            width: { xs: "30px", sm: "50px" },
+            fontSize: { xs: "12px", sm: "16px" },
+          }}
+        >
           {amount}
         </Box>
         <Box
@@ -73,7 +80,7 @@ export const ButtonCount = (props: IButtonCountProps) => {
               borderRadius: 0,
             }}
           >
-            <AddIcon fontSize="small" />
+            <AddIcon sx={{ fontSize: { xs: "12px", sm: "18px" } }} />
           </IconButton>
         </Box>
       </Box>

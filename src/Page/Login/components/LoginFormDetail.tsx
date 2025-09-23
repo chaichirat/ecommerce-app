@@ -89,9 +89,9 @@ export const LoginFormDetail = () => {
                     <b>Customer</b>
                   </Typography>
                   <Typography>
-                    username: sunny
+                    <b>{t("login.Username")}</b>: sunny
                     <br />
-                    password: 1234
+                    <b>{t("login.Password")}</b>: 1234
                   </Typography>
                 </Box>
                 <Box
@@ -105,9 +105,9 @@ export const LoginFormDetail = () => {
                     <b>Merchant</b>
                   </Typography>
                   <Typography>
-                    username: owner
+                    <b>{t("login.Username")}</b>: owner
                     <br />
-                    password: 5678
+                    <b>{t("login.Password")}</b>: 5678
                   </Typography>
                 </Box>
               </Box>
@@ -130,7 +130,7 @@ export const LoginFormDetail = () => {
           >
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Typography variant="h3" sx={{ color: color.textLogo }}>
-                <b>{t("login.Login")}</b>
+                <b>{t("Login")}</b>
               </Typography>
             </Box>
             <Box
@@ -155,9 +155,9 @@ export const LoginFormDetail = () => {
                           edge="end"
                         >
                           {showPassword ? (
-                            <VisibilityOffIcon fontSize="small" />
-                          ) : (
                             <VisibilityIcon fontSize="small" />
+                          ) : (
+                            <VisibilityOffIcon fontSize="small" />
                           )}
                         </IconButton>
                       </InputAdornment>
@@ -179,7 +179,7 @@ export const LoginFormDetail = () => {
                 variant="contained"
                 sx={{ width: "100%", bgcolor: color.background }}
               >
-                {t("login.Login")}
+                {t("Login")}
               </Button>
               <Box>
                 <Link href="#" underline="hover" sx={{ color: color.textLogo }}>

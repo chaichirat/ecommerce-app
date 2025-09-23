@@ -44,8 +44,9 @@ export const ImageEdit = (props: IImageEditProps) => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "470px",
-            height: "450px",
+            flexShrink: 0,
+            width: { xs: "270", sm: "470px" },
+            height: "350px",
             overflow: "hidden",
           }}
         >

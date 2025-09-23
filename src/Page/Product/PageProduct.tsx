@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { IProductType } from "../../constants/products";
 import { ButtonCount } from "../../components/ButtonCount";
-import { SnackBars } from "../../components/SnackBars";
 import { color } from "../../constants/color";
 import { useGetCurUserLoginQRY } from "../Login/components/LoginForm";
+import Swal from "sweetalert2";
 
 export const PageProduct = () => {
   const router = useRouter();
@@ -25,70 +25,70 @@ export const PageProduct = () => {
   const queryClient = useQueryClient();
 
   const [amount, setAmount] = useState(1);
-  const [openSnackbars, setOpenSnackbars] = useState(false);
-  const [label, setLabel] = useState("");
-
-  //   const { mutate: stock } = useMutation({
-  //     mutationFn: async (updateStock: IProductType) => {
-  //       queryClient.setQueryData(["product"], (productsList: IProductType[]) =>
-  //         productsList?.map((product) =>
-  //           product.id === updateStock.id
-  //             ? {
-  //                 ...updateStock,
-  //                 stock: updateStock?.stock
-  //                   ? updateStock?.stock - amount
-  //                   : alert(
-  //                       `${t("Sorry, this product is currently out of stock.")}`
-  //                     ),
-  //               }
-  //             : product
-  //         )
-  //       );
-  //       queryClient.invalidateQueries({ queryKey: ["product"] });
-
-  //       return updateStock;
-  //     },
-  //     onSuccess: (values: IProductType) => {
-  //       if (values.stock) {
-  //         setLabel("Shopping completed");
-  //         setOpenSnackbars(true);
-  //         setTimeout(() => {
-  //           router.push(paths.home);
-  //         }, 1000);
-  //       } else {
-  //         router.push(paths.home);
-  //       }
-  //     },
-  //   });
 
   const { mutate: addOrder } = useMutation({
     mutationFn: async (addOrder: IProductType) => {
       if (addOrder?.stock) {
         queryClient.removeQueries({ queryKey: ["order"] });
-
         queryClient.setQueryData(
           ["order"],
-          (productsList: IProductType[] = []) => [...productsList, addOrder]
+          (productsList: IProductType[] = []) => [
+            ...productsList,
+            { ...addOrder, amount },
+          ]
         );
       } else {
-        alert(`${t("Sorry, this product is currently out of stock.")}`);
+        Swal.fire({
+          icon: "error",
+          title: t("Sorry, this product is currently out of stock."),
+          confirmButtonText: t("button.OK"),
+          confirmButtonColor: color.background,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push(paths.home);
+          }
+        });
       }
+
+      return addOrder;
     },
-    onSuccess: () => {
+    onSuccess: (values: IProductType) => {
       console.log("Add to Order: Success.");
-      router.push(paths.payment);
+      if (values.stock) {
+        router.push(paths.payment);
+      }
     },
   });
 
   const { mutate: addCart } = useMutation({
     mutationFn: async (addCart: IProductType) => {
       if (addCart?.stock) {
-        queryClient.setQueryData(
-          ["cart"],
-          (productsList: IProductType[] = []) => [...productsList, addCart]
-        );
+        queryClient.setQueryData(["cart"], (productsList: IProductType[]) => {
+          const existing = productsList.find(
+            (product) => product.id === addCart.id
+          );
+
+          if (existing) {
+            return productsList.map((product) =>
+              product.id === addCart.id
+                ? { ...product, amount: (product?.amount as number) + amount }
+                : product
+            );
+          } else {
+            return [...productsList, { ...addCart, amount }];
+          }
+        });
       } else {
-        alert(`${t("Sorry, this product is currently out of stock.")}`);
+        Swal.fire({
+          icon: "error",
+          title: t("Sorry, this product is currently out of stock."),
+          confirmButtonText: t("button.OK"),
+          confirmButtonColor: color.background,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            router.push(paths.home);
+          }
+        });
       }
 
       return addCart;
@@ -96,21 +96,21 @@ export const PageProduct = () => {
     onSuccess: (values: IProductType) => {
       console.log("Add to Cart: Success.");
       if (values.stock) {
-        setLabel("Add to cart completed");
-        setOpenSnackbars(true);
-      } else {
-        router.push(paths.home);
+        Swal.fire({
+          icon: "success",
+          title: t("Add to cart completed"),
+          showConfirmButton: false,
+          timer: 1000,
+        });
       }
     },
   });
 
   const onBuying = useCallback(() => {
     if (curUser) {
-      if (curProduct?.stock) {
-        addOrder(curProduct);
-      } else {
-        alert(`${t("Sorry, this product is currently out of stock.")}`);
-      }
+      if (!curProduct) return;
+      console.log("Add to Order:", curProduct);
+      addOrder(curProduct);
     } else {
       router.push(paths.login);
     }
@@ -136,7 +136,7 @@ export const PageProduct = () => {
           display: "flex",
           position: "relative",
           bgcolor: "white",
-          m: "0 auto",
+          m: { xs: "0 0.5rem", md: "0 auto" },
           mt: { xs: "16px", md: "48px" },
           p: { xs: "1rem 1rem 2.5rem", sm: "2rem 3rem" },
           borderRadius: "0.5rem",
@@ -218,13 +218,17 @@ export const PageProduct = () => {
                   width: "100%",
                 }}
               >
-                <Typography variant="h6">
+                <Typography
+                  variant="h6"
+                  sx={{ fontSize: { xs: "14px", sm: "18px" } }}
+                >
                   <b>{t("tableHead.Amount")}:</b>
                 </Typography>
 
                 <Box
                   sx={{
                     display: "flex",
+                    alignItems: "center",
                     gap: { xs: "1rem", sm: "2rem" },
                     width: "100%",
                   }}
@@ -235,10 +239,13 @@ export const PageProduct = () => {
                     stock={curProduct?.stock ?? 1}
                   />
                   <Typography
-                    variant="h6"
-                    sx={{ width: "100%", color: "gray" }}
+                    sx={{
+                      width: "100%",
+                      color: "gray",
+                      fontSize: { xs: "14px", sm: "18px" },
+                    }}
                   >
-                    <b>{t("tableHead.Stock")}:</b>
+                    <b>{t("tableHead.Stock")}:</b>{" "}
                     {curProduct?.stock ? curProduct?.stock : t("Out of stock.")}
                   </Typography>
                 </Box>
@@ -274,7 +281,7 @@ export const PageProduct = () => {
                     width: "160px",
                   }}
                 >
-                  {t("button.Buy")}
+                  {t("Shop")}
                 </Button>
               </Box>
             </Box>
@@ -302,12 +309,6 @@ export const PageProduct = () => {
           </IconButton>
         </Box>
       </Box>
-
-      <SnackBars
-        open={openSnackbars}
-        setOpen={setOpenSnackbars}
-        label={t(label)}
-      />
     </>
   );
 };

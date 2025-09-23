@@ -6,10 +6,13 @@
     "Products just for you": "Products just for you"
   },
 
-  "header": { "Search": "Search", "Cart": "Cart", "Merchant": "Merchant" },
+  "header": {
+    "Search": "Search",
+    "Cart": "Cart",
+    "Merchant": "Merchant"
+  },
 
   "login": {
-    "Login": "Login",
     "Username": "Username",
     "Password": "Password",
     "Forgot your password": "Forgot your password"
@@ -23,7 +26,9 @@
     "Save": "Save",
     "View": "View",
     "Edit": "Edit",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "Shop": "Shop",
+    "OK": "OK"
   },
 
   "tableHead": {
@@ -52,8 +57,22 @@
     "Password Ivalidate": "Password ivalidate."
   },
 
-  "Shopping completed": "Shopping completed!",
+  "profile": {
+    "Profile": "Profile",
+    "My Store": "My Store",
+    "Logout": "Logout",
+    "Manage Store": "Manage Store"
+  },
+
+  "Order completed": "Order completed!",
   "Add to cart completed": "Add to cart completed!",
   "Out of stock.": "Out of stock.",
-  "Sorry, this product is currently out of stock.": "Sorry, this product is currently out of stock."
+  "Please select your product": "Please select your product.",
+  "Sorry, this product is currently out of stock.": "Sorry, this product is currently out of stock.",
+  "Shop": "Shop",
+  "Login": "Login",
+  "Payment": "Payment",
+  "Order": "Order",
+  "All": "All",
+  "Shipping address": "Shipping address"
 }

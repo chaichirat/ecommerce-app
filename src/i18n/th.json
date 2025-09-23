@@ -9,7 +9,6 @@
   "header": { "Search": "ค้นหา", "Cart": "รถเข็น", "Merchant": "ผู้ประกอบการ" },
 
   "login": {
-    "Login": "เข้าสู่ระบบ",
     "Username": "ชื่อผู้ใช้",
     "Password": "รหัสผ่าน",
     "Forgot your password": "ลืมรหัสผ่าน"
@@ -23,7 +22,8 @@
     "Save": "บันทึก",
     "View": "ดู",
     "Edit": "แก้ไข",
-    "Delete": "ลบ"
+    "Delete": "ลบ",
+    "OK": "โอเค"
   },
 
   "tableHead": {
@@ -52,8 +52,23 @@
     "Password Ivalidate": "รหัสผ่านไม่ถูกต้อง"
   },
 
-  "Shopping completed": "ช้อปสินค้าเสร็จเรียบร้อยแล้ว!",
+  "profile": {
+    "Profile": "โปรไฟล์",
+    "My Store": "ร้านค้าของฉัน",
+    "Logout": "ออกจากระบบ",
+    "Manage Store": "จัดการร้านค้า"
+  },
+
+  "Order completed": "สั่งซื้อสินค้าสำเร็จ!",
   "Add to cart completed": "เพิ่มสินค้าลงในรถเข็นเรียบร้อยแล้ว!",
   "Out of stock.": "สินค้าหมด",
-  "Sorry, this product is currently out of stock.": "ขออภัย สินค้าหมดคลังแล้วในขณะนี้."
+  "Please select your product": "โปรดเลือกสินค้าของคุณ",
+  "Sorry, this product is currently out of stock.": "ขออภัย สินค้าหมดคลังแล้วในขณะนี้",
+  "Shop": "ซื้อเลย",
+  "Login": "เข้าสู่ระบบ",
+  "Payment": "ชำระเงิน",
+  "Order": "สั่งซื้อสินค้า",
+  "All": "ทั้งหมด",
+  "Total": "รวมยอดสั่งซื้อ",
+  "Shipping address": "ที่อยู่จัดส่ง"
 }

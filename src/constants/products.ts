@@ -5,6 +5,7 @@ export type IProductType = {
   price?: number;
   stock?: number;
   description?: string;
+  amount?: number;
 };
 
 export const products: IProductType[] = [

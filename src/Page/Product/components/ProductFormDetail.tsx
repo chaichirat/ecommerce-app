@@ -32,18 +32,26 @@ export const ProductFormDetail = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
-          justifyContent: "space-between",
-          gap: "2rem",
-          bgcolor: "white",
-          m: "48px auto",
-          p: " 2rem 4rem",
-          borderRadius: "0.5rem",
           position: "relative",
-          maxWidth: "700px",
+          bgcolor: "white",
+          gap: "2rem",
+          m: { xs: "0 0.5rem", md: "0 auto" },
+          mt: { xs: "16px", md: "48px" },
+          p: { xs: "2rem 1rem 0", sm: "2rem 3rem" },
+          borderRadius: "0.5rem",
+          boxSizing: "border-box",
+          maxWidth: { xs: "100%", md: "1180px" },
         }}
       >
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <ImageField name="image" disabled={isDelete || isView} />
         </Box>
         <Box
@@ -51,7 +59,8 @@ export const ProductFormDetail = () => {
             display: "flex",
             flexDirection: "column",
             gap: "2rem",
-            width: "470px",
+            maxWidth: "470px",
+            width: "100%",
           }}
         >
           <Box

@@ -13,7 +13,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { IProductType } from "../../constants/products";
 import { ButtonCount } from "../../components/ButtonCount";
 import { color } from "../../constants/color";
-import { useGetCurUserLoginQRY } from "../Login/components/LoginForm";
+import { useGetCurUserQRY } from "../Login/components/LoginForm";
 import Swal from "sweetalert2";
 
 export const PageProduct = () => {
@@ -21,7 +21,7 @@ export const PageProduct = () => {
   const { t } = useTranslation();
   const { id } = useParams();
   const { data: curProduct } = useGetProductByIdQRY(Number(id));
-  const { data: curUser } = useGetCurUserLoginQRY();
+  const { data: curUser } = useGetCurUserQRY();
   const queryClient = useQueryClient();
 
   const [amount, setAmount] = useState(1);
@@ -64,14 +64,20 @@ export const PageProduct = () => {
     mutationFn: async (addCart: IProductType) => {
       if (addCart?.stock) {
         queryClient.setQueryData(["cart"], (productsList: IProductType[]) => {
-          const existing = productsList.find(
+          const foundProductCart = productsList.find(
             (product) => product.id === addCart.id
           );
 
-          if (existing) {
+          if (foundProductCart) {
             return productsList.map((product) =>
               product.id === addCart.id
-                ? { ...product, amount: (product?.amount as number) + amount }
+                ? {
+                    ...product,
+                    amount:
+                      (product?.amount ?? 0) < (product?.stock ?? 0)
+                        ? (product?.amount as number) + amount
+                        : product?.stock,
+                  }
                 : product
             );
           } else {

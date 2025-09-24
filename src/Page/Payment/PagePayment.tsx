@@ -3,7 +3,7 @@ import { Header } from "../../components/Header";
 import { useTranslation } from "react-i18next";
 import { color } from "../../constants/color";
 import LocationPinIcon from "@mui/icons-material/LocationPin";
-import { useGetCurUserLoginQRY } from "../Login/components/LoginForm";
+import { useGetCurUserQRY } from "../Login/components/LoginForm";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { IProductType } from "../../constants/products";
 import { useCallback } from "react";
@@ -21,7 +21,7 @@ const useGetOrderQRY = () => {
 export const PagePayment = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: curUser } = useGetCurUserLoginQRY();
+  const { data: curUser } = useGetCurUserQRY();
   const { data: curOrder = [] } = useGetOrderQRY();
   const queryClient = useQueryClient();
 
@@ -39,7 +39,11 @@ export const PagePayment = () => {
           return product;
         })
       );
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
+      queryClient.setQueryData(["cart"], (cartList: IProductType[]) =>
+        cartList.filter((product) =>
+          updateStock.find((order) => order.id !== product.id)
+        )
+      );
 
       return updateStock;
     },

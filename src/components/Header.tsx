@@ -33,7 +33,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useParams } from "react-router-dom";
 import { useGetProductCartQRY } from "../Page/Cart/PageCart";
 import { color } from "../constants/color";
-import { useGetCurUserLoginQRY } from "../Page/Login/components/LoginForm";
+import { useGetCurUserQRY } from "../Page/Login/components/LoginForm";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const Search = styled("div")(({ theme }) => ({
@@ -81,7 +81,7 @@ export const Header = () => {
   const { id } = useParams();
   const { t } = useTranslation();
   const { data: curCart } = useGetProductCartQRY();
-  const { data: curUser } = useGetCurUserLoginQRY();
+  const { data: curUser } = useGetCurUserQRY();
   const queryClient = useQueryClient();
 
   const [lang, setLang] = useState(i18n.language);
@@ -105,6 +105,7 @@ export const Header = () => {
   const { mutate: userLogout } = useMutation({
     mutationFn: async () => {
       queryClient.removeQueries({ queryKey: ["curUser"] });
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
     onSuccess: () => {
       router.push(paths.login);

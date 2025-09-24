@@ -14,7 +14,7 @@ const useGetUserLoginQRY = () => {
   });
 };
 
-export const useGetCurUserLoginQRY = () => {
+export const useGetCurUserQRY = () => {
   return useQuery<IUserType | undefined>({
     queryKey: ["curUser"],
     queryFn: () => undefined,

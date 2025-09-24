@@ -58,18 +58,16 @@ export const PageCart = () => {
     },
   });
 
-  // const { mutate: addAmount } = useMutation({
-  //   mutationFn: async (amount: IProductType) => {
-  //     queryClient.setQueryData(["cart"], (productList: IProductType[]) =>
-  //       productList.map((product) =>
-  //         product.id === amount.id ? { ...product, amount: amount } : product
-  //       )
-  //     );
-  //   },
-  //   onSuccess: () => {
-  //     console.log("Add amount success.");
-  //   },
-  // });
+  const onAmount = useCallback(
+    (id: number, value: number) => {
+      queryClient.setQueryData<IProductType[]>(["cart"], (prev = []) =>
+        prev.map((product) =>
+          product.id === id ? { ...product, amount: value } : product
+        )
+      );
+    },
+    [queryClient]
+  );
 
   const onBuying = useCallback(() => {
     const selectedProducts = curCart.filter((product) =>
@@ -96,15 +94,10 @@ export const PageCart = () => {
     [deleted, curCart]
   );
 
-  // const onAmount = useCallback(
-  //   (values: IProductType) => {
-  //     deleted(values);
-  //   },
-  //   [deleted, curCart]
-  // );
-
   const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelected(event.target.checked ? curCart.map((p) => p.id) : []);
+    setSelected(
+      event.target.checked ? curCart.map((product) => product.id) : []
+    );
   };
 
   const handleSelectItem = (_: MouseEvent<unknown>, id: number) => {
@@ -308,24 +301,8 @@ export const PageCart = () => {
                         ฿{product.price?.toLocaleString()}
                       </Typography>
                       <ButtonCount
-                        amount={
-                          product.amount &&
-                          product.stock &&
-                          product.amount <= product.stock
-                            ? product.amount
-                            : (product.stock as number)
-                        }
-                        setAmount={(value) =>
-                          queryClient.setQueryData<IProductType[]>(
-                            ["cart"],
-                            (productList = []) =>
-                              productList.map((p) =>
-                                p.id === product.id
-                                  ? { ...p, amount: value }
-                                  : p
-                              )
-                          )
-                        }
+                        amount={product?.amount as number}
+                        setAmount={(value) => onAmount(product.id, value)}
                         stock={product.stock ?? 1}
                       />
                     </Box>

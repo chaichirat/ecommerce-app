@@ -2,8 +2,6 @@ import {
   Box,
   Button,
   IconButton,
-  Menu,
-  MenuItem,
   Paper,
   Table,
   TableBody,
@@ -19,8 +17,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useCallback, useState, type MouseEvent } from "react";
+
+import { useCallback } from "react";
 import { useRouter } from "../../router";
 import { paths } from "../../constants/paths";
 import { color } from "../../constants/color";
@@ -31,14 +29,6 @@ export const PageProductMerchant = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const { data: products } = useGetProductsQRY();
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = () => setAnchorEl(null);
 
   const pathView = useCallback(
     (id: number) => router.push(paths.view.replace(":id", id.toString())),
@@ -143,6 +133,7 @@ export const PageProductMerchant = () => {
                     align="center"
                     sx={{
                       fontSize: { xs: "10px", sm: "14px" },
+                      width: { xs: "40px", sm: "auto" },
                     }}
                   >
                     {t("tableHead.Action")}
@@ -167,7 +158,7 @@ export const PageProductMerchant = () => {
                         src={product.image}
                         style={{
                           width: "60px",
-                          height: "40px",
+                          height: "60px",
                           objectFit: "cover",
                           borderRadius: "0.5rem",
                           cursor: "pointer",
@@ -209,61 +200,42 @@ export const PageProductMerchant = () => {
                       {product.stock ? product.stock : t("Out of stock.")}
                     </TableCell>
                     <TableCell align="center">
-                      <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: { xs: "column", sm: "row" },
+                        }}
+                      >
                         <Tooltip title={t("button.View")}>
-                          <IconButton onClick={() => pathView(product.id)}>
-                            <VisibilityIcon />
+                          <IconButton
+                            onClick={() => pathView(product.id)}
+                            sx={{ p: { xs: "4px", sm: "8px" } }}
+                          >
+                            <VisibilityIcon
+                              sx={{ fontSize: { xs: "14px", sm: "22px" } }}
+                            />
                           </IconButton>
                         </Tooltip>
                         <Tooltip title={t("button.Edit")}>
-                          <IconButton onClick={() => pathEdit(product.id)}>
-                            <EditIcon />
+                          <IconButton
+                            onClick={() => pathEdit(product.id)}
+                            sx={{ p: { xs: "4px", sm: "8px" } }}
+                          >
+                            <EditIcon
+                              sx={{ fontSize: { xs: "14px", sm: "22px" } }}
+                            />
                           </IconButton>
                         </Tooltip>
                         <Tooltip title={t("button.Delete")}>
-                          <IconButton onClick={() => pathDelete(product.id)}>
-                            <DeleteIcon />
+                          <IconButton
+                            onClick={() => pathDelete(product.id)}
+                            sx={{ p: { xs: "4px", sm: "8px" } }}
+                          >
+                            <DeleteIcon
+                              sx={{ fontSize: { xs: "14px", sm: "22px" } }}
+                            />
                           </IconButton>
                         </Tooltip>
-                      </Box>
-
-                      <Box sx={{ display: { xs: "flex", md: "none" } }}>
-                        <IconButton onClick={handleMenuOpen}>
-                          <MoreVertIcon fontSize="small" />
-                        </IconButton>
-                        <Menu
-                          anchorEl={anchorEl}
-                          open={open}
-                          onClose={handleMenuClose}
-                          aria-labelledby="demo-positioned-button"
-                          anchorOrigin={{
-                            vertical: "top",
-                            horizontal: "left",
-                          }}
-                          transformOrigin={{
-                            vertical: "top",
-                            horizontal: "left",
-                          }}
-                        >
-                          <MenuItem
-                            onClick={() => pathView(product.id)}
-                            sx={{ fontSize: { xs: "12px", sm: "14px" } }}
-                          >
-                            {t("button.View")}
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => pathEdit(product.id)}
-                            sx={{ fontSize: { xs: "12px", sm: "14px" } }}
-                          >
-                            {t("button.Edit")}
-                          </MenuItem>
-                          <MenuItem
-                            onClick={() => pathDelete(product.id)}
-                            sx={{ fontSize: { xs: "12px", sm: "14px" } }}
-                          >
-                            {t("button.Delete")}
-                          </MenuItem>
-                        </Menu>
                       </Box>
                     </TableCell>
                   </TableRow>

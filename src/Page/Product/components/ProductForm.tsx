@@ -36,7 +36,7 @@ export const ProductForm = (props: IProductFormProps) => {
         error.price = t("validation.Please enter a number.") as any;
       }
 
-      if (!values.stock) {
+      if (!values.stock && values.stock !== 0) {
         error.stock = t("validation.Stock is require.") as any;
       } else if (isNaN(values.stock)) {
         error.stock = t("validation.Please enter a number.") as any;

@@ -96,6 +96,13 @@ export const PageCart = () => {
     [deleted, curCart]
   );
 
+  // const onAmount = useCallback(
+  //   (values: IProductType) => {
+  //     deleted(values);
+  //   },
+  //   [deleted, curCart]
+  // );
+
   const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
     setSelected(event.target.checked ? curCart.map((p) => p.id) : []);
   };

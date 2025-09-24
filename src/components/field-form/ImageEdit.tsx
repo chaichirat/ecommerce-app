@@ -43,9 +43,10 @@ export const ImageEdit = (props: IImageEditProps) => {
         <Box
           sx={{
             display: "flex",
+            alignItems: "center",
             flexDirection: "column",
             flexShrink: 0,
-            width: { xs: "270", sm: "470px" },
+            width: { xs: "330px", sm: "470px" },
             height: "350px",
             overflow: "hidden",
           }}
@@ -56,7 +57,7 @@ export const ImageEdit = (props: IImageEditProps) => {
                 ? value
                 : "https://cdn.vectorstock.com/i/500p/33/47/no-photo-available-icon-vector-40343347.jpg"
             }
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ width: "330px", height: "100%", objectFit: "cover" }}
           />
           <input
             type="file"

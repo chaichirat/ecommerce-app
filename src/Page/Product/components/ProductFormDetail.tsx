@@ -37,12 +37,11 @@ export const ProductFormDetail = () => {
           position: "relative",
           bgcolor: "white",
           gap: "2rem",
-          m: { xs: "0 0.5rem", md: "0 auto" },
-          mt: { xs: "16px", md: "48px" },
-          p: { xs: "2rem 1rem 0", sm: "2rem 3rem" },
+          m: { xs: "16px 0.5rem", md: "48px auto" },
+          p: { xs: "3rem 1rem 1rem", sm: "2rem 3rem" },
           borderRadius: "0.5rem",
           boxSizing: "border-box",
-          maxWidth: { xs: "100%", md: "1180px" },
+          maxWidth: { xs: "100%", md: "800px" },
         }}
       >
         <Box

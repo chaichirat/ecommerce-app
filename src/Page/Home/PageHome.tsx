@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Header } from "../../components/Header";
-import { products } from "../../constants/products";
+import { products, type IProductType } from "../../constants/products";
 import { useRouter } from "../../router";
 import { useTranslation } from "react-i18next";
 import { useCallback, useRef, useState, type RefObject } from "react";
@@ -25,10 +25,14 @@ export const useGetProductsQRY = () => {
 };
 
 export const useGetProductByIdQRY = (id: number) => {
+  const queryClient = useQueryClient();
   return useQuery({
-    queryKey: ["product"],
-    queryFn: () => products,
-    select: (data) => data.find((p) => p.id === id),
+    queryKey: ["product", id],
+    queryFn: () => {
+      const data = queryClient.getQueryData<IProductType[]>(["product"]);
+      return data?.find((product) => product.id === id);
+    },
+    // select: (data) => data.find((p) => p.id === id),
   });
 };
 
@@ -37,6 +41,7 @@ export const PageHome = () => {
   const { t } = useTranslation();
   const { data: products } = useGetProductsQRY();
   const [visible, setVisible] = useState(false);
+  const queryClient = useQueryClient();
 
   const productList = useRef<HTMLDivElement | null>(null);
 
@@ -59,8 +64,11 @@ export const PageHome = () => {
   };
 
   const pathProduct = useCallback(
-    (id: number) => router.push(paths.product.replace(":id", id.toString())),
-    [router]
+    (id: number) => {
+      queryClient.refetchQueries({ queryKey: ["product", id] });
+      return router.push(paths.product.replace(":id", id.toString())), [router];
+    },
+    [queryClient, router]
   );
 
   return (
@@ -177,6 +185,7 @@ export const PageHome = () => {
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
+            mb: { xs: "0.5rem", md: "2rem" },
           }}
         >
           <Typography variant="h4" color="white">
@@ -193,9 +202,10 @@ export const PageHome = () => {
               sm: "repeat(4, 1fr)",
               lg: "repeat(6, 1fr)",
             },
-            p: { xs: "0.5rem", sm: "2rem" },
+            p: { xs: "0.5rem", sm: "1rem", md: "0px" },
+            mb: { xs: "0.5rem", sm: "2rem" },
             borderRadius: "0.5rem",
-            gap: { xs: "8px", sm: "12px" },
+            gap: { xs: "8px", sm: "10px" },
             width: "100%",
             maxWidth: "1180px",
             boxSizing: "border-box",
@@ -206,7 +216,7 @@ export const PageHome = () => {
               key={product.id}
               sx={{
                 width: "100%",
-                maxWidth: "220px",
+                maxWidth: "240px",
                 mx: "auto",
                 maxHeight: "330px",
                 transition: "transform 0.15s ease-in-out",

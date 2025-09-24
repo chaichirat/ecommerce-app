@@ -138,7 +138,7 @@ export const PageProduct = () => {
           bgcolor: "white",
           m: { xs: "0 0.5rem", md: "0 auto" },
           mt: { xs: "16px", md: "48px" },
-          p: { xs: "1rem 1rem 2.5rem", sm: "2rem 3rem" },
+          p: { xs: "3rem 1rem ", sm: "2rem 3rem" },
           borderRadius: "0.5rem",
           boxSizing: "border-box",
           maxWidth: { xs: "100%", md: "1180px" },
@@ -160,7 +160,7 @@ export const PageProduct = () => {
               borderRadius: "0.5rem",
               overflow: "hidden",
               flexShrink: 0,
-              width: { xs: "270", sm: "370px" },
+              width: "330px",
               height: "350px",
             }}
           >
@@ -168,7 +168,7 @@ export const PageProduct = () => {
               <img
                 src={curProduct?.image}
                 style={{
-                  width: "100%",
+                  width: "330px",
                   height: "100%",
                   objectFit: "cover",
                 }}

@@ -124,6 +124,7 @@ export const LoginFormDetail = () => {
               width: { xs: "100vw", sm: "500px", md: "400px" },
               py: "2rem",
               px: { xs: "1rem", sm: "2rem" },
+              mt: "2rem",
               boxSizing: "border-box",
               boxShadow: "0px 2px 15px rgba(0, 0, 0, 0.32)",
             }}

@@ -60,7 +60,7 @@ export const PageCart = () => {
 
   const onAmount = useCallback(
     (id: number, value: number) => {
-      queryClient.setQueryData<IProductType[]>(["cart"], (prev = []) =>
+      queryClient.setQueryData(["cart"], (prev: IProductType[] = []) =>
         prev.map((product) =>
           product.id === id ? { ...product, amount: value } : product
         )

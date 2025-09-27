@@ -79,6 +79,8 @@ export const ProductFormDetail = () => {
               name="price"
               label={t("Price")}
               disabled={isDelete || isView}
+              parse={(value) => (value ? Number(value.replace(/,/g, "")) : 0)}
+              format={(value) => (value ? Number(value).toLocaleString() : "")}
             />
             <TextField
               name="description"

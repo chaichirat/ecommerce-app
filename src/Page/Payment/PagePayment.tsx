@@ -44,28 +44,20 @@ export const PagePayment = () => {
           updateStock.find((order) => order.id !== product.id)
         )
       );
-
-      return updateStock;
     },
-    onSuccess: (values: IProductType[]) => {
-      if (values.length > 0) {
-        Swal.fire({
-          icon: "success",
-          title: t("Order completed"),
-          showConfirmButton: false,
-          timer: 1500,
-          background: "#fff url(/images/trees.png)",
-          backdrop: `rgba(0,0,123,0.4)
+    onSuccess: () => {
+      Swal.fire({
+        icon: "success",
+        title: t("Order completed"),
+        showConfirmButton: false,
+        timer: 1500,
+        allowOutsideClick: false,
+        background: "#fff url(/images/trees.png)",
+        backdrop: `rgba(0,0,123,0.4)
           url("https://media.tenor.com/rI_0O_9AJ5sAAAAj/nyan-cat-poptart-cat.gif")
           left top
           no-repeat`,
-        });
-        setTimeout(() => {
-          router.push(paths.home);
-        }, 1500);
-      } else {
-        router.push(paths.home);
-      }
+      }).then(() => router.push(paths.home));
     },
   });
 

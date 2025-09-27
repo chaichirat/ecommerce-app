@@ -46,8 +46,8 @@ export const ImageEdit = (props: IImageEditProps) => {
             alignItems: "center",
             flexDirection: "column",
             flexShrink: 0,
-            width: { xs: "330px", sm: "470px" },
-            height: "350px",
+            width: { xs: "300px", md: "430px" },
+            height: { xs: "280px", md: "410px" },
             overflow: "hidden",
           }}
         >
@@ -57,7 +57,12 @@ export const ImageEdit = (props: IImageEditProps) => {
                 ? value
                 : "https://cdn.vectorstock.com/i/500p/33/47/no-photo-available-icon-vector-40343347.jpg"
             }
-            style={{ width: "330px", height: "100%", objectFit: "cover" }}
+            style={{
+              maxWidth: "430px",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
           />
           <input
             type="file"

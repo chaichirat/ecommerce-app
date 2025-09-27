@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { Form } from "react-final-form";
 import { LoginFormDetail } from "./LoginFormDetail";
-import { user, type IUserType } from "../../../constants/user";
+import { users, type IUserType } from "../../../constants/user";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "../../../router";
@@ -10,23 +10,36 @@ import { paths } from "../../../constants/paths";
 const useGetUserLoginQRY = () => {
   return useQuery<IUserType[]>({
     queryKey: ["userLogin"],
-    queryFn: () => user,
+    queryFn: () => users,
   });
 };
 
 export const useGetCurUserQRY = () => {
   return useQuery<IUserType | undefined>({
     queryKey: ["curUser"],
-    queryFn: () => undefined,
+    queryFn: () => {
+      const user = localStorage.getItem("curUser");
+      if (!user) return undefined;
+      return JSON.parse(user) as IUserType;
+    },
   });
 };
 
-const useSetUserLoginQRY = () => {
+const useUserLogin = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (valuse: IUserType) => {
-      queryClient.setQueryData<IUserType>(["curUser"], valuse);
+    mutationFn: async (curUser: IUserType) => {
+      return {
+        ...curUser,
+        token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30",
+      };
+    },
+    onSuccess: (values: IUserType) => {
+      queryClient.setQueryData<IUserType>(["curUser"], values);
+      localStorage.setItem("curUser", JSON.stringify(values));
+      localStorage.setItem("token", values?.token ?? "");
     },
   });
 };
@@ -35,7 +48,7 @@ export const LoginForm = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { data } = useGetUserLoginQRY();
-  const { mutate: curUser } = useSetUserLoginQRY();
+  const { mutate: curUser } = useUserLogin();
 
   const onValidate = useCallback(
     (values: IUserType) => {

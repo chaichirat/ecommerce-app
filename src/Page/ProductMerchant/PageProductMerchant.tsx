@@ -1,7 +1,9 @@
 import {
+  Backdrop,
   Box,
   Button,
   IconButton,
+  LinearProgress,
   Paper,
   Table,
   TableBody,
@@ -28,7 +30,7 @@ import { Header } from "../../components/Header";
 export const PageProductMerchant = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { data: products } = useGetProductsQRY();
+  const { data: products, isLoading } = useGetProductsQRY();
 
   const pathView = useCallback(
     (id: number) => router.push(paths.view.replace(":id", id.toString())),
@@ -47,6 +49,29 @@ export const PageProductMerchant = () => {
   return (
     <>
       <Header />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          width="60%"
+        >
+          <LinearProgress
+            sx={{
+              width: "100%",
+              mb: 2,
+              "& .MuiLinearProgress-bar": {
+                bgcolor: color.background,
+              },
+              bgcolor: "#ffb7c9ff",
+            }}
+          />
+        </Box>
+      </Backdrop>
+
       <Box
         sx={{
           display: "flex",

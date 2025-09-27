@@ -105,6 +105,8 @@ export const Header = () => {
   const { mutate: userLogout } = useMutation({
     mutationFn: async () => {
       queryClient.removeQueries({ queryKey: ["curUser"] });
+      localStorage.removeItem("token");
+      localStorage.removeItem("curUser");
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
     onSuccess: () => {
@@ -130,6 +132,7 @@ export const Header = () => {
 
   const pathHome = useCallback(() => router.push(paths.home), [router]);
   const pathMerchant = useCallback(() => router.push(paths.merchant), [router]);
+  const pathProfile = useCallback(() => router.push(paths.profile), [router]);
 
   const isHome = useMemo(() => {
     return router.pathname === paths.home;
@@ -145,18 +148,22 @@ export const Header = () => {
 
   const isCart = useMemo(() => {
     return router.pathname === paths.cart;
-  }, [router, id]);
+  }, [router]);
 
   const isMerchant = useMemo(() => {
     return router.pathname === paths.merchant;
-  }, [router, id]);
+  }, [router]);
 
   const isPayment = useMemo(() => {
     return router.pathname === paths.payment;
-  }, [router, id]);
+  }, [router]);
+
+  const isProfile = useMemo(() => {
+    return router.pathname === paths.profile;
+  }, [router]);
 
   const roleMerchant = useMemo(() => {
-    return curUser?.role === "merchant";
+    return curUser?.role === "Merchant";
   }, [router]);
 
   return (
@@ -233,6 +240,8 @@ export const Header = () => {
                 ? t("profile.Manage Store")
                 : isPayment
                 ? t("Payment")
+                : isProfile
+                ? t("Profile")
                 : ""}
             </Typography>
           </Box>
@@ -398,7 +407,7 @@ export const Header = () => {
               transformOrigin={{ horizontal: "right", vertical: "top" }}
               anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
             >
-              <MenuItem onClick={handleClose}>
+              <MenuItem onClick={pathProfile}>
                 <Avatar src={curUser?.image} /> {t("profile.Profile")}
               </MenuItem>
               {roleMerchant && (

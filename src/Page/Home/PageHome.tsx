@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { useCallback, useRef, useState, type RefObject } from "react";
 import { paths } from "../../constants/paths";
 import {
+  Backdrop,
   Box,
   Button,
   Card,
@@ -13,6 +14,8 @@ import {
   CardContent,
   CardMedia,
   Fab,
+  LinearProgress,
+  Skeleton,
   Typography,
   Zoom,
 } from "@mui/material";
@@ -21,25 +24,31 @@ import { color } from "../../constants/color";
 import * as motion from "motion/react-client";
 
 export const useGetProductsQRY = () => {
-  return useQuery({ queryKey: ["product"], queryFn: () => products });
+  return useQuery({
+    queryKey: ["product"],
+    queryFn: async () => {
+      await new Promise((res) => setTimeout(res, 1000));
+      return products;
+    },
+  });
 };
 
 export const useGetProductByIdQRY = (id: number) => {
   const queryClient = useQueryClient();
   return useQuery({
     queryKey: ["product", id],
-    queryFn: () => {
+    queryFn: async () => {
+      await new Promise((res) => setTimeout(res, 500));
       const data = queryClient.getQueryData<IProductType[]>(["product"]);
       return data?.find((product) => product.id === id);
     },
-    // select: (data) => data.find((p) => p.id === id),
   });
 };
 
 export const PageHome = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { data: products } = useGetProductsQRY();
+  const { data: products, isLoading } = useGetProductsQRY();
   const [visible, setVisible] = useState(false);
   const queryClient = useQueryClient();
 
@@ -74,6 +83,29 @@ export const PageHome = () => {
   return (
     <>
       <Header />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          width="60%"
+        >
+          <LinearProgress
+            sx={{
+              width: "100%",
+              mb: 2,
+              "& .MuiLinearProgress-bar": {
+                bgcolor: color.background,
+              },
+              bgcolor: "#ffb7c9ff",
+            }}
+          />
+        </Box>
+      </Backdrop>
+
       <Box
         sx={{
           maxWidth: "1280px",
@@ -102,7 +134,7 @@ export const PageHome = () => {
               justifyContent: "center",
               alignItems: "start",
               textAlign: { xs: "center", lg: "start" },
-              maxwidth: "600px",
+              maxWidth: "600px",
               height: "100%",
               mb: { xs: "0", lg: "10rem" },
               boxSizing: "border-box",
@@ -211,62 +243,95 @@ export const PageHome = () => {
             boxSizing: "border-box",
           }}
         >
-          {products?.map((product) => (
-            <Card
-              key={product.id}
-              sx={{
-                width: "100%",
-                maxWidth: "240px",
-                mx: "auto",
-                maxHeight: "330px",
-                transition: "transform 0.15s ease-in-out",
-                "&:hover": { transform: "scale(1.025)" },
-              }}
-            >
-              <CardActionArea onClick={() => pathProduct(product.id)}>
-                <CardMedia
-                  component="img"
-                  image={product.image}
+          {isLoading
+            ? [...Array(12)].map((_, index) => (
+                <Card
+                  key={index}
                   sx={{
-                    objectFit: "cover",
                     width: "100%",
-                    height: "200px",
-                  }}
-                />
-                <CardContent
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    textAlign: "start",
-                    height: "104px",
+                    height: "100%",
+                    minWidth: { xs: "175px", md: "189px" },
+                    maxWidth: "240px",
+                    mx: "auto",
+                    maxHeight: "330px",
                   }}
                 >
-                  <Box>
-                    <Typography
-                      variant="caption"
-                      component="div"
+                  <Skeleton variant="rectangular" width="100%" height={200} />
+                  <CardContent
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      textAlign: "start",
+                      height: "104px",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <Box>
+                      <Skeleton variant="text" width="80%" height={20} />
+                      <Skeleton variant="text" width="40%" height={28} />
+                    </Box>
+                    <Skeleton variant="text" width="60%" height={18} />
+                  </CardContent>
+                </Card>
+              ))
+            : products?.map((product) => (
+                <Card
+                  key={product.id}
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    maxWidth: "240px",
+                    mx: "auto",
+                    maxHeight: "330px",
+                    transition: "transform 0.15s ease-in-out",
+                    "&:hover": { transform: "scale(1.025)" },
+                  }}
+                >
+                  <CardActionArea onClick={() => pathProduct(product.id)}>
+                    <CardMedia
+                      component="img"
+                      image={product.image}
                       sx={{
-                        display: "-webkit-box",
-                        overflow: "hidden",
-                        WebkitBoxOrient: "vertical",
-                        WebkitLineClamp: 2,
+                        objectFit: "cover",
+                        width: "100%",
+                        height: "200px",
+                      }}
+                    />
+                    <CardContent
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "space-between",
+                        textAlign: "start",
+                        height: "104px",
                       }}
                     >
-                      <b>{product.title}</b>
-                    </Typography>
-                    <Typography variant="h5" color={color.background}>
-                      ฿{product.price?.toLocaleString()}
-                    </Typography>
-                  </Box>
-                  <Typography variant="body2">
-                    <b>{t("tableHead.Stock")}:</b>{" "}
-                    {product.stock ? product.stock : t("Out of stock.")}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
+                      <Box>
+                        <Typography
+                          variant="caption"
+                          component="div"
+                          sx={{
+                            display: "-webkit-box",
+                            overflow: "hidden",
+                            WebkitBoxOrient: "vertical",
+                            WebkitLineClamp: 2,
+                          }}
+                        >
+                          <b>{product.title}</b>
+                        </Typography>
+                        <Typography variant="h5" color={color.background}>
+                          ฿{product.price?.toLocaleString()}
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2">
+                        <b>{t("tableHead.Stock")}:</b>{" "}
+                        {product.stock ? product.stock : t("Out of stock.")}
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              ))}
         </Box>
 
         <Zoom in={visible}>

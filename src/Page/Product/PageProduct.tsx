@@ -1,6 +1,5 @@
-import { Box, Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Skeleton, Typography } from "@mui/material";
 import { Header } from "../../components/Header";
-
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { useRouter } from "../../router";
@@ -20,7 +19,7 @@ export const PageProduct = () => {
   const router = useRouter();
   const { t } = useTranslation();
   const { id } = useParams();
-  const { data: curProduct } = useGetProductByIdQRY(Number(id));
+  const { data: curProduct, isLoading } = useGetProductByIdQRY(Number(id));
   const { data: curUser } = useGetCurUserQRY();
   const queryClient = useQueryClient();
 
@@ -43,6 +42,7 @@ export const PageProduct = () => {
           title: t("Sorry, this product is currently out of stock."),
           confirmButtonText: t("button.OK"),
           confirmButtonColor: color.background,
+          allowOutsideClick: false,
         }).then((result) => {
           if (result.isConfirmed) {
             router.push(paths.home);
@@ -90,6 +90,7 @@ export const PageProduct = () => {
           title: t("Sorry, this product is currently out of stock."),
           confirmButtonText: t("button.OK"),
           confirmButtonColor: color.background,
+          allowOutsideClick: false,
         }).then((result) => {
           if (result.isConfirmed) {
             router.push(paths.home);
@@ -106,6 +107,7 @@ export const PageProduct = () => {
           icon: "success",
           title: t("Add to cart completed"),
           showConfirmButton: false,
+          allowOutsideClick: false,
           timer: 1000,
         });
       }
@@ -166,20 +168,30 @@ export const PageProduct = () => {
               borderRadius: "0.5rem",
               overflow: "hidden",
               flexShrink: 0,
-              width: "330px",
-              height: "350px",
+              width: { xs: "300px", md: "430px" },
+              height: { xs: "280px", md: "410px" },
             }}
           >
-            <a href={curProduct?.image} target="blank">
-              <img
-                src={curProduct?.image}
-                style={{
-                  width: "330px",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
+            {isLoading ? (
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                height="100%"
+                animation="wave"
               />
-            </a>
+            ) : (
+              <a href={curProduct?.image} target="blank">
+                <img
+                  src={curProduct?.image}
+                  style={{
+                    maxWidth: "430px",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                />
+              </a>
+            )}
           </Box>
 
           <Box
@@ -193,104 +205,123 @@ export const PageProduct = () => {
               height: "100%",
             }}
           >
-            <Box>
-              <Typography variant="h5" gutterBottom>
-                <b>{curProduct?.title}</b>
-              </Typography>
-              <b>
-                <Typography variant="h3" gutterBottom color={color.background}>
-                  ฿{curProduct?.price?.toLocaleString()}
-                </Typography>
-              </b>
-              <Typography variant="h6" gutterBottom>
-                {curProduct?.description}
-              </Typography>
-            </Box>
-
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: "2rem",
-              }}
-            >
+            {isLoading ? (
               <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "start",
-                  gap: { xs: "2rem", md: "4rem" },
-                  width: "100%",
-                }}
+                sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}
               >
-                <Typography
-                  variant="h6"
-                  sx={{ fontSize: { xs: "14px", sm: "18px" } }}
-                >
-                  <b>{t("tableHead.Amount")}:</b>
-                </Typography>
+                <Skeleton variant="text" width="50%" height={40} />
+                <Skeleton variant="text" width="30%" height={60} />
+                <Skeleton variant="text" width="80%" height={30} />
+                <Skeleton variant="rectangular" width="100%" height={40} />
+              </Box>
+            ) : (
+              <>
+                <Box>
+                  <Typography variant="h5" gutterBottom>
+                    <b>{curProduct?.title}</b>
+                  </Typography>
+                  <b>
+                    <Typography
+                      variant="h3"
+                      gutterBottom
+                      color={color.background}
+                    >
+                      ฿{curProduct?.price?.toLocaleString()}
+                    </Typography>
+                  </b>
+                  <Typography variant="h6" gutterBottom>
+                    {curProduct?.description}
+                  </Typography>
+                </Box>
 
                 <Box
                   sx={{
                     display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-between",
                     alignItems: "center",
-                    gap: { xs: "1rem", sm: "2rem" },
-                    width: "100%",
+                    gap: "2rem",
                   }}
                 >
-                  <ButtonCount
-                    amount={amount}
-                    setAmount={setAmount}
-                    stock={curProduct?.stock ?? 1}
-                  />
-                  <Typography
+                  <Box
                     sx={{
+                      display: "flex",
+                      justifyContent: "start",
+                      gap: { xs: "2rem", md: "4rem" },
                       width: "100%",
-                      color: "gray",
-                      fontSize: { xs: "14px", sm: "18px" },
                     }}
                   >
-                    <b>{t("tableHead.Stock")}:</b>{" "}
-                    {curProduct?.stock ? curProduct?.stock : t("Out of stock.")}
-                  </Typography>
-                </Box>
-              </Box>
+                    <Typography
+                      variant="h6"
+                      sx={{ fontSize: { xs: "14px", sm: "18px" } }}
+                    >
+                      <b>{t("tableHead.Amount")}:</b>
+                    </Typography>
 
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: { xs: "center", sm: "start" },
-                  gap: { xs: "0.5rem", sm: "1rem" },
-                  width: "100%",
-                  height: "40px",
-                }}
-              >
-                <Button
-                  variant="outlined"
-                  onClick={onAddCart}
-                  startIcon={<AddShoppingCartIcon fontSize="large" />}
-                  sx={{
-                    maxwidth: "160px",
-                    borderColor: color.background,
-                    bgcolor: "white",
-                    color: color.background,
-                  }}
-                >
-                  {t("button.Add to cart")}
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={onBuying}
-                  sx={{
-                    bgcolor: color.background,
-                    width: "160px",
-                  }}
-                >
-                  {t("Shop")}
-                </Button>
-              </Box>
-            </Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: { xs: "1rem", sm: "2rem" },
+                        width: "100%",
+                      }}
+                    >
+                      <ButtonCount
+                        amount={amount}
+                        setAmount={setAmount}
+                        stock={curProduct?.stock ?? 1}
+                      />
+                      <Typography
+                        sx={{
+                          width: "100%",
+                          color: "gray",
+                          fontSize: { xs: "14px", sm: "18px" },
+                        }}
+                      >
+                        <b>{t("tableHead.Stock")}:</b>{" "}
+                        {curProduct?.stock
+                          ? curProduct?.stock
+                          : t("Out of stock.")}
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: { xs: "center", sm: "start" },
+                      gap: { xs: "0.5rem", sm: "1rem" },
+                      width: "100%",
+                      height: "40px",
+                    }}
+                  >
+                    <Button
+                      variant="outlined"
+                      onClick={onAddCart}
+                      startIcon={<AddShoppingCartIcon fontSize="large" />}
+                      sx={{
+                        maxwidth: "160px",
+                        borderColor: color.background,
+                        bgcolor: "white",
+                        color: color.background,
+                      }}
+                    >
+                      {t("button.Add to cart")}
+                    </Button>
+                    <Button
+                      variant="contained"
+                      onClick={onBuying}
+                      sx={{
+                        bgcolor: color.background,
+                        width: "160px",
+                      }}
+                    >
+                      {t("Shop")}
+                    </Button>
+                  </Box>
+                </Box>
+              </>
+            )}
           </Box>
         </Box>
 

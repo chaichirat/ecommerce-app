@@ -9,4 +9,6 @@ export const paths = {
   delete: "/product/delete/:id",
   cart: "/cart",
   payment: "/payment",
+  profile: "/profile",
+  profileEdit: "/profile/edit",
 };

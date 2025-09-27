@@ -12,6 +12,8 @@ import { PageProductView } from "../Page/Product/PageProductView";
 import { PageCart } from "../Page/Cart/PageCart";
 import { PageLogin } from "../Page/Login/PageLogin";
 import { PagePayment } from "../Page/Payment/PagePayment";
+import { PageProfile } from "../Page/Profile/PageProfile";
+import { PageEditProfile } from "../Page/Profile/PageEditProfile";
 
 export const Router = () => {
   return useRoutes([
@@ -54,6 +56,14 @@ export const Router = () => {
     {
       path: paths.payment,
       element: <PagePayment />,
+    },
+    {
+      path: paths.profile,
+      element: <PageProfile />,
+    },
+    {
+      path: paths.profileEdit,
+      element: <PageEditProfile />,
     },
   ]);
 };

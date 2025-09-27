@@ -3,7 +3,8 @@ export type IUserType = {
   image: string;
   username: string;
   password: string;
-  role: "customer" | "merchant";
+  name: string;
+  role: "Customer" | "Merchant";
   phone: string;
   address: {
     street: string;
@@ -12,15 +13,17 @@ export type IUserType = {
     postalCode: string;
     country: string;
   };
+  token?: string;
 };
 
-export const user: IUserType[] = [
+export const users: IUserType[] = [
   {
     id: "u001",
     image: "https://i.imgur.com/rcFckQN.png",
     username: "sunny",
     password: "1234",
-    role: "customer",
+    name: "Chaichirat",
+    role: "Customer",
     phone: "(+66) 91 234 5678",
     address: {
       street: "123 ถนนสุขุมวิท",
@@ -36,7 +39,8 @@ export const user: IUserType[] = [
       "https://storeitni.com/wp-content/uploads/2022/08/cropped-store-it-logo-LARGE.png",
     username: "owner",
     password: "5678",
-    role: "merchant",
+    name: "Sunzada IT Store",
+    role: "Merchant",
     phone: "(+66) 98 765 4321",
     address: {
       street: "99 ถนนพระราม 9",

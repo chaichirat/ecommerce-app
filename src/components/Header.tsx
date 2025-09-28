@@ -5,12 +5,10 @@ import {
   Divider,
   FormControl,
   IconButton,
-  InputBase,
   ListItemIcon,
   Menu,
   MenuItem,
   Select,
-  styled,
   Tooltip,
   Typography,
   type SelectChangeEvent,
@@ -24,7 +22,6 @@ import {
   useState,
   type MouseEvent,
 } from "react";
-import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Logout from "@mui/icons-material/Logout";
@@ -35,46 +32,6 @@ import { useGetProductCartQRY } from "../Page/Cart/PageCart";
 import { color } from "../constants/color";
 import { useGetCurUserQRY } from "../Page/Login/components/LoginForm";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.grey[200],
-  overflow: "hidden",
-  marginLeft: 0,
-  width: "400px",
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  backgroundColor: "#fe8513ff",
-  "&:hover": { backgroundColor: "#eb7f1aff" },
-  borderRadius: 0,
-  right: 0,
-  cursor: "pointer",
-  zIndex: 10,
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  width: "100%",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(0)})`,
-    transition: theme.transitions.create("width"),
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
 
 export const Header = () => {
   const router = useRouter();
@@ -253,18 +210,6 @@ export const Header = () => {
               gap: { xs: "0.5rem", sm: "2rem" },
             }}
           >
-            {isHome && (
-              <Search sx={{ display: { xs: "none", md: "block" } }}>
-                <SearchIconWrapper>
-                  <SearchIcon sx={{ color: "white" }} />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder={t("header.Search")}
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </Search>
-            )}
-
             {(isHome || isProduct) && (
               <Box>
                 <IconButton onClick={onClickCart}>

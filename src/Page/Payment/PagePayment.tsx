@@ -25,7 +25,7 @@ export const PagePayment = () => {
   const { data: curOrder = [] } = useGetOrderQRY();
   const queryClient = useQueryClient();
 
-  const { mutate: stock } = useMutation({
+  const { mutate: order } = useMutation({
     mutationFn: async (updateStock: IProductType[]) => {
       queryClient.setQueryData(["product"], (productsList: IProductType[]) =>
         productsList?.map((product) => {
@@ -40,8 +40,8 @@ export const PagePayment = () => {
         })
       );
       queryClient.setQueryData(["cart"], (cartList: IProductType[]) =>
-        cartList.filter((product) =>
-          updateStock.find((order) => order.id !== product.id)
+        cartList.filter(
+          (product) => !updateStock.find((order) => order.id === product.id)
         )
       );
     },
@@ -62,8 +62,8 @@ export const PagePayment = () => {
   });
 
   const onOrder = useCallback(() => {
-    stock(curOrder);
-  }, [curOrder, stock]);
+    order(curOrder);
+  }, [curOrder, order]);
 
   let total = 0;
   curOrder.forEach((product) => {

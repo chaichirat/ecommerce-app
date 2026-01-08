@@ -140,7 +140,7 @@ export const PageCart = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "100%",
+              width: "100%", 
               height: "100%",
               boxSizing: "border-box",
             }}
@@ -148,7 +148,7 @@ export const PageCart = () => {
             <Box sx={{ maxWidth: "800px" }}>
               <img
                 style={{ width: "100%", height: "auto" }}
-                src="https://decproduct.com/images/web/empty-cart.png"
+                src="../../src/assets/img/empty-cart.png"
               />
             </Box>
           </Box>
@@ -160,7 +160,7 @@ export const PageCart = () => {
             flexDirection: "column",
             gap: "0.5rem",
             maxWidth: "1180px",
-            m: { xs: "0 0.5rem", md: "0 auto" },
+            m: { xs: "88px 0.5rem 0", md: "108px auto 0" },
             boxSizing: "border-box",
             justifyContent: "center",
             alignItems: "center",
@@ -175,7 +175,6 @@ export const PageCart = () => {
               p: "0.5rem",
               width: "100%",
               height: "auto",
-              mt: "2rem",
               boxSizing: "border-box",
             }}
           >

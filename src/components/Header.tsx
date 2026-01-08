@@ -62,7 +62,6 @@ export const Header = () => {
   const { mutate: userLogout } = useMutation({
     mutationFn: async () => {
       queryClient.removeQueries({ queryKey: ["curUser"] });
-      localStorage.removeItem("token");
       localStorage.removeItem("curUser");
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
@@ -128,7 +127,7 @@ export const Header = () => {
       <Box
         sx={{
           display: "flex",
-          position: isHome ? "fixed" : "unset",
+          position: "fixed",
           top: 0,
           left: 0,
           height: "68px",

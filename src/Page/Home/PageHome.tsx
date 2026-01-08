@@ -37,8 +37,7 @@ export const useGetProductByIdQRY = (id: number) => {
   const queryClient = useQueryClient();
   return useQuery({
     queryKey: ["product", id],
-    queryFn: async () => {
-      await new Promise((res) => setTimeout(res, 500));
+    queryFn: () => {
       const data = queryClient.getQueryData<IProductType[]>(["product"]);
       return data?.find((product) => product.id === id);
     },
@@ -84,26 +83,19 @@ export const PageHome = () => {
     <>
       <Header />
       <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
         open={isLoading}
       >
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          width="60%"
-        >
-          <LinearProgress
-            sx={{
-              width: "100%",
-              mb: 2,
-              "& .MuiLinearProgress-bar": {
-                bgcolor: color.background,
-              },
-              bgcolor: "#ffb7c9ff",
-            }}
-          />
-        </Box>
+        <LinearProgress
+          sx={{
+            width: "60%",
+            mb: 2,
+            "& .MuiLinearProgress-bar": {
+              bgcolor: color.background,
+            },
+            bgcolor: "#ffb7c9ff",
+          }}
+        />
       </Backdrop>
 
       <Box

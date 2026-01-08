@@ -37,7 +37,7 @@ export const ProductFormDetail = () => {
           position: "relative",
           bgcolor: "white",
           gap: "2rem",
-          m: { xs: "16px 0.5rem", md: "48px auto" },
+          m: { xs: "88px 0.5rem 0", md: "108px auto 0" },
           p: { xs: "3rem 1rem 1rem", sm: "2rem 3rem" },
           borderRadius: "0.5rem",
           boxSizing: "border-box",

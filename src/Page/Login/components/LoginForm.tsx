@@ -22,6 +22,11 @@ export const useGetCurUserQRY = () => {
       if (!user) return undefined;
       return JSON.parse(user) as IUserType;
     },
+    initialData: () => {
+      const user = localStorage.getItem("curUser");
+      if (!user) return undefined;
+      return JSON.parse(user) as IUserType;
+    },
   });
 };
 
@@ -39,7 +44,6 @@ const useUserLogin = () => {
     onSuccess: (values: IUserType) => {
       queryClient.setQueryData<IUserType>(["curUser"], values);
       localStorage.setItem("curUser", JSON.stringify(values));
-      localStorage.setItem("token", values?.token ?? "");
     },
   });
 };

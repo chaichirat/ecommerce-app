@@ -79,7 +79,8 @@ export const PagePayment = () => {
           flexDirection: "column",
           gap: "0.5rem",
           maxWidth: "1180px",
-          m: { xs: "0 0.5rem", lg: "0 auto" },
+          width: "100%",
+          m: { xs: "88px 0.5rem 0", md: "108px auto 0" },
           boxSizing: "border-box",
           justifyContent: "center",
           alignItems: "center",
@@ -94,7 +95,6 @@ export const PagePayment = () => {
             gap: "1rem",
             p: { xs: "1rem", sm: "2rem" },
             width: "100%",
-            mt: "2rem",
             boxSizing: "border-box",
           }}
         >

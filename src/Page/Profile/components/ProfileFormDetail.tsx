@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, InputAdornment, Typography } from "@mui/material";
+import { Avatar, Box, Button, Typography } from "@mui/material";
 import { TextField } from "../../../components/field-form";
 import { useTranslation } from "react-i18next";
 import { color } from "../../../constants/color";
@@ -21,8 +21,9 @@ export const ProfileFormDetail = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          m: "0 auto",
+          m: { xs: "88px 0.5rem 0", md: "108px auto 0" },
           maxWidth: "1180px",
+          width: "100%",
           boxSizing: "border-box",
         }}
       >
@@ -32,14 +33,13 @@ export const ProfileFormDetail = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            position: "relative",
             bgcolor: "white",
             borderRadius: "0.5rem",
             mx: "0.5rem",
-            mt: "2rem",
             p: "2rem",
-            width: { xs: "100%", sm: "60%" },
-            height: "100%",
+            maxWidth: "500px",
+            width: "100%",
+            boxSizing: "border-box",
           }}
         >
           <Box
@@ -77,17 +77,7 @@ export const ProfileFormDetail = () => {
               }}
             >
               <TextField name="name" label="Name" />
-              <TextField
-                name="phone"
-                label="Phone number"
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">(+66)</InputAdornment>
-                    ),
-                  },
-                }}
-              />
+              <TextField name="phone" label="Phone number" />
               <Box
                 sx={{
                   display: "flex",

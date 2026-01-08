@@ -79,8 +79,7 @@ export const PageProductMerchant = () => {
           justifyContent: "center",
           alignItems: "center",
           maxWidth: "1180px",
-          m: { xs: "0 0.5rem", md: "0 auto" },
-          mt: { xs: "24px", md: "48px" },
+          m: { xs: "88px 0.5rem 0", md: "108px auto 0" },
         }}
       >
         <Box

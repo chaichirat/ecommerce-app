@@ -25,8 +25,9 @@ export const PageProfile = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          m: "0 auto",
+          m: { xs: "88px auto 0", md: "108px auto 0" },
           maxWidth: "1180px",
+          width: "100%",
           boxSizing: "border-box",
         }}
       >
@@ -39,7 +40,6 @@ export const PageProfile = () => {
             bgcolor: "white",
             borderRadius: "0.5rem",
             mx: "0.5rem",
-            mt: "2rem",
             p: "2rem",
             width: { xs: "100%", sm: "60%" },
             height: "100%",
